@@ -1,0 +1,44 @@
+/* 皮肤：柔和粉彩（Catppuccin Latte 色系，catppuccin/catppuccin，MIT）。轻快柔和、低攻击性。
+   中性阶与全部状态色直接取自 Latte 官方 26 色（黄底按 base.css 规则配深字）。
+   适用：教育/文创/年轻团队客户的营销图。与「活力紫」气质相近但更轻更淡，按客户锐利度二选一。
+   慎用：权威严肃型、重工业客户。 */
+:root {
+  --backdrop: #E6E9EF;       /* Latte Mantle */
+  --font: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+
+  --primary: #7287FD;        /* Latte Lavender */
+  --primary-deep: #5A6BD8;
+  --primary-soft: rgba(114, 135, 253, .16);
+  --primary-08: rgba(114, 135, 253, .08);
+
+  --page-bg: #EFF1F5;        /* Latte Base */
+  --card-bg: #FFFFFF;
+  --line: #DCE0E8;           /* Latte Crust */
+  --field-bg: #ECEEF3;
+  --filter-bg: #ECEEF3;
+  --tag-bg: rgba(76, 79, 105, .09);
+  --ink-85: #4C4F69;         /* Latte Text */
+  --ink-65: #5C5F77;         /* Latte Subtext1 */
+  --ink-45: #8C8FA1;         /* Latte Overlay1 */
+  --ink-25: #ACB0BE;         /* Latte Surface2 */
+
+  --c-blue: #1E66F5;         /* Blue */
+  --c-teal: #179299;         /* Teal */
+  --c-green: #40A02B;        /* Green */
+  --c-red: #D20F39;          /* Red */
+  --c-orange: #FE640B;       /* Peach */
+  --c-purple: #8839EF;       /* Mauve */
+  --c-yellow: #DF8E1D;       /* Yellow */
+
+  --tint-blue: #DCE7FD;
+  --tint-teal: #D9F0EF;
+  --tint-yellow: #FAF0D8;
+
+  --banner-bg: linear-gradient(180deg, #A7B3FA, #7287FD);
+
+  --accent: #EA76CB;         /* Latte Pink：粉彩强调 */
+  --accent-bg: #FBE4F3;
+
+  --shadow-card: 0 4px 12px rgba(76, 79, 105, .07);
+  --shadow-window: 0 40px 90px -30px rgba(76, 79, 105, .30);
+}

@@ -1,0 +1,43 @@
+/* 皮肤：科技暗黑（对应官网风格 S4 Tech Dark）。深底高对比、青色点缀。
+   适用：科技/数据驱动型客户的营销图、大屏气质的看板图。
+   慎用：嵌入打印报告（深底费墨显脏）、温暖亲切型客户、老年受众。 */
+:root {
+  --backdrop: #0A0F1A;   /* 画布外围衬底（html 背景） */
+  --font: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+
+  --primary: #4C8DFF;
+  --primary-deep: #101A30;
+  --primary-soft: rgba(76, 141, 255, .20);
+  --primary-08: rgba(76, 141, 255, .10);
+
+  --page-bg: #0F1522;
+  --card-bg: #161E2E;
+  --line: rgba(255, 255, 255, .09);
+  --field-bg: rgba(255, 255, 255, .06);
+  --filter-bg: rgba(255, 255, 255, .06);
+  --tag-bg: rgba(255, 255, 255, .10);
+  --ink-85: rgba(255, 255, 255, .90);
+  --ink-65: rgba(255, 255, 255, .62);
+  --ink-45: rgba(255, 255, 255, .42);
+  --ink-25: rgba(255, 255, 255, .24);
+
+  --c-blue: #4C8DFF;
+  --c-teal: #2BC8D9;
+  --c-green: #3FBF7F;
+  --c-red: #E5636B;
+  --c-orange: #F0964B;
+  --c-purple: #8B7CF7;
+  --c-yellow: #E8C14B;
+
+  --tint-blue: rgba(76, 141, 255, .16);
+  --tint-teal: rgba(43, 200, 217, .14);
+  --tint-yellow: rgba(232, 193, 75, .14);
+
+  --banner-bg: linear-gradient(180deg, #1D2C4F, #14203C);
+
+  --accent: #2BC8D9;
+  --accent-bg: rgba(43, 200, 217, .15);
+
+  --shadow-card: 0 4px 16px rgba(0, 0, 0, .35);
+  --shadow-window: 0 40px 90px -30px rgba(0, 0, 0, .70);
+}

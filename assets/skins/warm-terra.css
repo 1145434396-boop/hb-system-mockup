@@ -1,0 +1,43 @@
+/* 皮肤：温暖人文（对应官网风格 S3 Warm Humanistic）。低饱和暖陶色、米白纸感。
+   适用：康养/教育/消费服务/民生类客户的营销图。
+   慎用：科技企业、数据驱动型产品。 */
+:root {
+  --backdrop: #F2ECE4;   /* 画布外围衬底（html 背景） */
+  --font: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+
+  --primary: #D2703F;
+  --primary-deep: #A9552B;
+  --primary-soft: rgba(210, 112, 63, .14);
+  --primary-08: rgba(210, 112, 63, .08);
+
+  --page-bg: #FAF6F1;
+  --card-bg: #FFFFFF;
+  --line: #EADFD3;
+  --field-bg: #F7F1E9;
+  --filter-bg: #F7F1E9;
+  --tag-bg: rgba(90, 60, 30, .08);
+  --ink-85: rgba(59, 42, 30, .88);
+  --ink-65: rgba(59, 42, 30, .64);
+  --ink-45: rgba(59, 42, 30, .44);
+  --ink-25: rgba(59, 42, 30, .26);
+
+  --c-blue: #5B84B8;
+  --c-teal: #4FA3A0;
+  --c-green: #6B9E5E;
+  --c-red: #C4574A;
+  --c-orange: #E09A3E;
+  --c-purple: #8A7BA6;
+  --c-yellow: #DDB74A;
+
+  --tint-blue: #E7EDF4;
+  --tint-teal: #E3F0EE;
+  --tint-yellow: #F8EED8;
+
+  --banner-bg: linear-gradient(180deg, #E2A277, #C97B4A);
+
+  --accent: #B5602F;
+  --accent-bg: #F5E3D3;
+
+  --shadow-card: 0 4px 12px rgba(90, 60, 30, .06);
+  --shadow-window: 0 40px 90px -30px rgba(90, 60, 30, .30);
+}

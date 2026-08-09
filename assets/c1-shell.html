@@ -1,0 +1,81 @@
+<!--
+伙伴云界面示意图 · 结构 1/3：画布与产品壳层
+
+本文件是架构与组件目录，不含业务示例：
+1. 产品设计类使用“产品界面壳层”；营销类在此基础上按需增加浮层或标注。
+2. data-architecture 表示页面层级；data-component 表示可重复组件。
+3. 组件槽位中的注释说明内容类型，不是默认文案。
+4. 尺寸、颜色与状态外观由 base.css 和 skins/*.css 提供。
+-->
+
+<template data-architecture="产品界面壳层">
+  <div class="stage">
+    <div class="window">
+      <!-- 组件：一级顶栏 -->
+      <div class="win-body">
+        <!-- 组件：左侧导航 -->
+        <div class="main"><!-- 页面内容插槽：放入 c2/c3 页面内部结构，不再嵌套第二个 .main --></div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<template data-component="一级顶栏" data-group="产品壳层">
+  <div class="ws-bar">
+    <div class="ws-left">
+      <span class="ws-logo"><!-- 工作区标志 --></span>
+      <span class="ws-name"><!-- 工作区名称 --></span>
+      <span class="plus"><svg class="ico"><use href="#i-plus"/></svg></span>
+    </div>
+    <div class="ws-mid">
+      <span class="menu"><svg class="ico"><use href="#i-menu"/></svg></span>
+      <span class="pg"><!-- 当前页面名称 --></span>
+      <span class="caret"><!-- 展开图标 --></span>
+    </div>
+    <div class="ws-right"><!-- 客服、通知、工作台、帮助与头像 --></div>
+  </div>
+</template>
+
+<template data-component="左侧导航" data-group="产品壳层">
+  <div class="side">
+    <div class="ico-row"><!-- 首页、表格、文档、流程入口 --></div>
+    <div class="tree"><!-- 导航分组、页面项、文件夹与子项 --></div>
+    <div class="bottom"><!-- 管理、成员与更多操作 --></div>
+  </div>
+</template>
+
+<template data-component="导航图标入口" data-group="左侧导航">
+  <i><svg class="ico"><use href="#i-home"/></svg></i> <!-- 图标页签行四项依次：home / table / doc / flow -->
+</template>
+
+<template data-component="导航分组标题" data-group="左侧导航">
+  <div class="group"><!-- 分组名称 --></div>
+</template>
+
+<template data-component="导航页面项" data-group="左侧导航">
+  <div class="leaf">
+    <span class="li"><svg class="ico"><use href="#i-app-s"/></svg></span> <!-- 表/页面的彩色应用图标，按业务选：app-s grid-s board-s chart-s trend-s pie-s check-s fire-s factory-s box-s star-s -->
+    <!-- 页面名称 -->
+  </div>
+</template>
+
+<template data-component="导航文件夹" data-group="左侧导航">
+  <div class="folder">
+    <span class="fi"><svg class="ico"><use href="#i-folder"/></svg></span>
+    <!-- 文件夹名称 -->
+    <span class="n"><!-- 子项数量 --></span>
+    <span class="more"><!-- 更多操作 --></span>
+  </div>
+</template>
+
+<template data-component="导航子项容器" data-group="左侧导航">
+  <div class="sub"><!-- 导航页面项 --></div>
+</template>
+
+<template data-component="营销浮层" data-group="画布" data-default="off">
+  <div class="float"><!-- 已收录组件 --></div>
+</template>
+
+<template data-component="营销标注" data-group="画布" data-default="off">
+  <div class="callout"><!-- 业务价值说明 --></div>
+</template>

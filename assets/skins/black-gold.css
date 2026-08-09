@@ -1,0 +1,43 @@
+/* 皮肤：高端黑金（对应官网风格 S8 Luxury Refined）。炭黑主色、金色点缀、奢侈留白感。
+   适用：高端精品/金融/律所/地产类客户的营销图。
+   慎用：大众消费品、信息密集的活泼业务。 */
+:root {
+  --backdrop: #EDECE7;   /* 画布外围衬底（html 背景） */
+  --font: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+
+  --primary: #2F2C26;
+  --primary-deep: #1D1B17;
+  --primary-soft: rgba(47, 44, 38, .10);
+  --primary-08: rgba(47, 44, 38, .06);
+
+  --page-bg: #F7F6F2;
+  --card-bg: #FFFFFF;
+  --line: #E6E2D8;
+  --field-bg: #F4F2EC;
+  --filter-bg: #F4F2EC;
+  --tag-bg: rgba(0, 0, 0, .07);
+  --ink-85: rgba(20, 18, 14, .88);
+  --ink-65: rgba(20, 18, 14, .62);
+  --ink-45: rgba(20, 18, 14, .44);
+  --ink-25: rgba(20, 18, 14, .25);
+
+  --c-blue: #4E6E8E;
+  --c-teal: #4E8E85;
+  --c-green: #5E8E5E;
+  --c-red: #A8524A;
+  --c-orange: #C08A45;
+  --c-purple: #6E6880;
+  --c-yellow: #C0A855;
+
+  --tint-blue: #E8ECF0;
+  --tint-teal: #E6EFED;
+  --tint-yellow: #F4EDDA;
+
+  --banner-bg: linear-gradient(180deg, #3A362D, #23211B);
+
+  --accent: #B8963E;
+  --accent-bg: #F4EDDA;
+
+  --shadow-card: 0 4px 14px rgba(20, 18, 14, .06);
+  --shadow-window: 0 40px 90px -30px rgba(20, 18, 14, .35);
+}

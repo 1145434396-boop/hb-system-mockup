@@ -1,0 +1,49 @@
+/* 皮肤：伙伴云产品原生（默认）。忠实还原产品实测配色；产品设计类出图首选。
+   主色实测自「生产制造ERP v7.1」，工作区可换主题，客户定制时改 --primary/--primary-deep 即可。 */
+:root {
+  --backdrop: #EDEFF2;   /* 画布外围衬底（html 背景） */
+  --font: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+
+  /* 主色系 */
+  --primary: #5283FF;                      /* 按钮/选中态（实测） */
+  --primary-deep: #3060D9;                 /* 一级顶栏（实测） */
+  --primary-soft: rgba(82, 131, 255, .16); /* 选中页签底 */
+  --primary-08: rgba(82, 131, 255, .08);   /* 选中行底 */
+
+  /* 中性系 */
+  --page-bg: #F7F8FA;
+  --card-bg: #FFFFFF;
+  --line: #EBEBEB;
+  --field-bg: #F5F6F8;   /* 字段值框灰底（实测） */
+  --filter-bg: #F7F7F7;  /* 筛选部件底（实测） */
+  --tag-bg: rgba(0, 0, 0, .08);
+  --ink-85: rgba(0, 0, 0, .85);
+  --ink-65: rgba(0, 0, 0, .65);
+  --ink-45: rgba(0, 0, 0, .45);
+  --ink-25: rgba(0, 0, 0, .25);
+
+  /* 状态/标签彩底（红绿灯语义；蓝、青为实测值，其余为产品近似） */
+  --c-blue: #3D97F2;
+  --c-teal: #24B1D4;
+  --c-green: #58A55C;
+  --c-red: #E06965;
+  --c-orange: #F29A3C;
+  --c-purple: #7B67EE;
+  --c-yellow: #F2BE44;
+
+  /* widget 标题带浅色底 */
+  --tint-blue: #D6EAF8;
+  --tint-teal: #D2F0E7;
+  --tint-yellow: #FBF0CE;
+
+  /* 横幅渐变 */
+  --banner-bg: linear-gradient(180deg, #7FB0F5, #4E8FF0);
+
+  /* 营销浮层强调（原生皮肤用主色系） */
+  --accent: #3060D9;
+  --accent-bg: rgba(82, 131, 255, .12);
+
+  /* 投影 */
+  --shadow-card: 0 4px 12px rgba(0, 0, 0, .04);
+  --shadow-window: 0 40px 90px -30px rgba(28, 37, 48, .30);
+}

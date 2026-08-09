@@ -1,0 +1,45 @@
+/* 皮肤：北欧冷灰（Nord 色系，nordtheme/nord，MIT）。冷淡低饱和蓝灰、极简克制。
+   主色/状态色取自 Nord Frost 与 Aurora（部分按 B 端白底可读性加深一档），中性系用蓝灰阶补齐（Nord 无亮色灰阶）。
+   适用：SaaS/研发/制造等工具型客户的营销图，"冷静专业"气质。
+   慎用：需要热情亲和感的行业；状态色饱和度低，异常项的视觉警示弱于其他皮肤。 */
+:root {
+  --backdrop: #E8EDF2;
+  --font: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+
+  --primary: #5E81AC;        /* Nord10 */
+  --primary-deep: #4A6890;
+  --primary-soft: rgba(94, 129, 172, .15);
+  --primary-08: rgba(94, 129, 172, .08);
+
+  --page-bg: #F6F8FA;
+  --card-bg: #FFFFFF;
+  --line: #E2E8F0;
+  --field-bg: #F1F5F9;
+  --filter-bg: #F1F5F9;
+  --tag-bg: rgba(46, 52, 64, .08);
+  --ink-85: rgba(24, 32, 45, .88);
+  --ink-65: rgba(24, 32, 45, .64);
+  --ink-45: rgba(24, 32, 45, .45);
+  --ink-25: rgba(24, 32, 45, .26);
+
+  /* Aurora 系，白字可读性不足的加深一档；黄底按 base.css 规则配深字 */
+  --c-blue: #6A8FB5;
+  --c-teal: #619E9D;
+  --c-green: #7B9E63;
+  --c-red: #B3555E;
+  --c-orange: #C9704F;
+  --c-purple: #9A7396;
+  --c-yellow: #EBCB8B;
+
+  --tint-blue: #E7EEF4;
+  --tint-teal: #E3F0EF;
+  --tint-yellow: #F8F1DF;
+
+  --banner-bg: linear-gradient(180deg, #81A1C1, #5E81AC);
+
+  --accent: #C9704F;         /* 冷底上的暖强调（Aurora 橙加深） */
+  --accent-bg: #F7E9E3;
+
+  --shadow-card: 0 4px 12px rgba(46, 52, 64, .06);
+  --shadow-window: 0 40px 90px -30px rgba(46, 52, 64, .30);
+}

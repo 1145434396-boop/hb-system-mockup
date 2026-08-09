@@ -1,0 +1,328 @@
+<!--
+伙伴云界面示意图 · 结构 2/3：表格页、字段、表单与业务视图
+
+本文件是架构与组件目录，不含业务示例：
+1. 每个 <template> 独立，出现顺序不代表页面默认顺序。
+2. data-architecture 表示页面层级；data-component 表示组件或合法变体。
+3. 注释只说明槽位语义；字段名、记录值、按钮文案和视图名称由当前需求决定。
+4. 同一页面只选所需视图引擎，不整段复制业务视图库。
+5. 尺寸、颜色与状态外观由 base.css 和 skins/*.css 提供。
+-->
+
+<!-- ══════════ 三～五、列表页架构 ══════════ -->
+<template data-architecture="列表页主内容" data-slot="c1 .main">
+  <!-- 直接插入 c1 的 .main，不新增 .main 容器 -->
+  <!-- 组件：视图页签 -->
+  <!-- 组件：工具栏 -->
+  <!-- 组件：当前业务视图 -->
+  <!-- 组件：底部统计条 -->
+</template>
+
+<template data-component="视图页签" data-group="列表页">
+  <div class="views">
+    <span class="v"><svg class="ico"><use href="#i-grid-s"/></svg><!-- 视图名称 --></span> <!-- 视图类型小图标：grid-s（网格）board-s（看板）f-date（日历）chart-s（甘特） -->
+    <span class="add"><svg class="ico"><use href="#i-plus"/></svg><!-- 创建视图操作 --></span>
+    <span class="ovf"><!-- 溢出入口 --></span>
+  </div>
+</template>
+
+<template data-component="工具栏" data-group="列表页">
+  <div class="tools">
+    <span class="tool"><svg class="ico"><use href="#i-fields"/></svg><!-- 工具名称 --></span> <!-- 按工具选：fields group filter sort freeze rowheight import export -->
+    <div class="right">
+      <span class="search"><!-- 搜索组件 --></span>
+      <span class="btn-new"><!-- 创建操作 --></span>
+    </div>
+  </div>
+</template>
+
+<template data-component="网格视图" data-group="业务视图">
+  <div class="table-view grid-view">
+    <div class="grid">
+      <table>
+        <tr>
+          <th class="ck"><span class="cb"></span></th>
+          <th class="idx"></th>
+          <th><!-- 字段名称 --></th>
+          <th class="ops"><!-- 操作列名称 --></th>
+        </tr>
+        <tr>
+          <td class="ck"><span class="cb"></span></td>
+          <td class="idx"><!-- 行号 --></td>
+          <td><!-- 字段值或已收录单元格组件 --></td>
+          <td class="ops"><!-- 行内操作 --></td>
+        </tr>
+      </table>
+      <div class="hscroll"><i></i></div>
+    </div>
+  </div>
+</template>
+
+<template data-component="底部统计条" data-group="列表页">
+  <div class="foot">
+    <span><!-- 记录数 --></span>
+    <span class="sum"><!-- 汇总方式与汇总值 --></span>
+  </div>
+</template>
+
+<!-- ══════════ 单元格组件 ══════════ -->
+<template data-component="灰底标签" data-group="单元格">
+  <span class="tag"><!-- 标签值 --></span>
+</template>
+
+<template data-component="彩色选项标签" data-group="单元格">
+  <span class="tag"><!-- 选项值；按状态语义追加 c-* class --></span>
+</template>
+
+<template data-component="多值标签" data-group="单元格">
+  <span class="tags"><span class="tag"><!-- 标签值 --></span></span>
+</template>
+
+<template data-component="人员" data-group="单元格">
+  <span class="user"><span class="av"><!-- 头像 --></span><!-- 人员名称 --></span>
+</template>
+
+<template data-component="行内快捷按钮" data-group="单元格">
+  <span class="op-btn"><svg class="ico"><use href="#i-download"/></svg><!-- 操作名称 --></span> <!-- 按业务动作选：download arrow-right check send edit -->
+</template>
+
+<!-- ══════════ 六、字段组件 ══════════ -->
+<template data-component="基础字段" data-group="字段">
+  <div class="field">
+    <div class="f-label"><!-- 字段名称；必填时追加 .req --></div>
+    <div class="f-value"><!-- 字段值或字段类型组件 --></div>
+  </div>
+</template>
+
+<template data-component="字段分组" data-group="字段">
+  <div class="field-group">
+    <!-- 分组名称 -->
+    <span class="fold"><svg class="ico"><use href="#i-prev"/></svg></span> <!-- 折叠箭头，展开态用 prev 旋转或直接写 ⌃ -->
+  </div>
+</template>
+
+<template data-component="关联字段展开态" data-group="字段">
+  <div class="field rel-open">
+    <div class="f-label"><!-- 字段名称 --></div>
+    <div class="f-value-card">
+      <div class="rel-main"><!-- 关联记录 --></div>
+      <div class="rel-rows">
+        <div class="rr"><span class="rl"><!-- 附加字段名 --></span><span class="rv"><!-- 附加字段值 --></span></div>
+      </div>
+      <div class="rel-more"><!-- 展开操作 --></div>
+    </div>
+  </div>
+</template>
+
+<!-- 字段类型名称：单行文本、手机号、多行文本、选项展开型、选项下拉型、富文本、条码、日期和时间、数值、金额、单成员、多成员、关联其他表、位置、附件、手写签名、图片 -->
+<template data-component="单行输入字段" data-group="字段类型">
+  <div class="field editing">
+    <div class="f-label"><!-- 字段名称 --></div>
+    <input class="f-input"/>
+  </div>
+</template>
+
+<template data-component="多行文本字段" data-group="字段类型">
+  <div class="field editing textarea-field">
+    <div class="f-label"><!-- 字段名称 --></div>
+    <textarea class="f-textarea"></textarea>
+  </div>
+</template>
+
+<template data-component="选项字段" data-group="字段类型">
+  <div class="field editing category-field">
+    <div class="f-label"><!-- 字段名称 --></div>
+    <div class="f-value option-list"><span class="tag"><!-- 选项值 --></span></div>
+  </div>
+</template>
+
+<template data-component="富文本字段" data-group="字段类型">
+  <div class="field rich-field">
+    <div class="f-label"><!-- 字段名称 --></div>
+    <div class="rich-preview"><!-- 富文本展示态 --></div>
+    <div class="rich-editor"><!-- 富文本编辑态 --></div>
+  </div>
+</template>
+
+<template data-component="带后缀输入字段" data-group="字段类型">
+  <div class="field editing">
+    <div class="f-label"><!-- 字段名称 --></div>
+    <div class="f-input-affix"><input/><span class="suffix"><!-- 单位、日期或扫码操作 --></span></div>
+  </div>
+</template>
+
+<template data-component="条码字段" data-group="字段类型">
+  <div class="field barcode-field editing">
+    <div class="f-label"><!-- 字段名称 --></div>
+    <div class="f-input-affix"><input/><span class="suffix"><svg class="ico"><use href="#i-f-barcode"/></svg></span></div>
+  </div>
+</template>
+
+<template data-component="日期和时间字段" data-group="字段类型">
+  <div class="field date-field editing">
+    <div class="f-label"><!-- 字段名称 --></div>
+    <div class="f-input-affix"><input/><span class="suffix cal"><svg class="ico"><use href="#i-f-date"/></svg></span></div>
+  </div>
+</template>
+
+<template data-component="数值字段" data-group="字段类型">
+  <div class="field numeric-field editing">
+    <div class="f-label"><!-- 字段名称 --></div>
+    <input class="f-input" inputmode="decimal"/>
+  </div>
+</template>
+
+<template data-component="金额字段" data-group="字段类型">
+  <div class="field money-field editing">
+    <div class="f-label"><!-- 字段名称 --></div>
+    <div class="f-input-affix"><input/><span class="suffix"><!-- 单位 --></span></div>
+  </div>
+</template>
+
+<template data-component="成员字段" data-group="字段类型">
+  <div class="field user-field">
+    <div class="f-label"><!-- 字段名称 --></div>
+    <div class="f-value"><!-- 一个或多个人员组件 --></div>
+  </div>
+</template>
+
+<template data-component="位置字段" data-group="字段类型">
+  <div class="field location-field">
+    <div class="f-label"><!-- 字段名称 --></div>
+    <div class="f-value-card">
+      <div class="location-title"><!-- 位置名称 --></div>
+      <div class="location-detail"><!-- 详细地址 --></div>
+      <button class="location-action"><svg class="ico"><use href="#i-f-location"/></svg></button>
+    </div>
+  </div>
+</template>
+
+<template data-component="附件字段" data-group="字段类型">
+  <div class="field file-field">
+    <div class="f-label"><!-- 字段名称 --></div>
+    <div class="file-list">
+      <div class="file-item"><i class="file-type"></i><span><!-- 文件名称 --></span><button><!-- 文件操作 --></button></div>
+      <button class="upload"><!-- 上传操作 --></button>
+    </div>
+  </div>
+</template>
+
+<template data-component="手写签名字段" data-group="字段类型">
+  <div class="field signature-field">
+    <div class="f-label"><!-- 字段名称 --></div>
+    <div class="signature-preview"><svg class="ico"><use href="#i-edit"/></svg></div> <!-- 手写签名预览，实际是笔迹图形 -->
+  </div>
+</template>
+
+<template data-component="图片字段" data-group="字段类型">
+  <div class="field image-field">
+    <div class="f-label"><!-- 字段名称 --></div>
+    <div class="image-list"><figure><img alt=""/><figcaption><!-- 图片名称 --></figcaption></figure></div>
+  </div>
+</template>
+
+<!-- ══════════ 八、表单架构 ══════════ -->
+<template data-architecture="标准表单编辑态" data-slot="c1 .stage" data-layer="overlay" data-use="仅在明确要求展示编辑态时">
+  <div class="modal-mask"></div>
+  <div class="standard-form-modal">
+    <div class="sf-hd edit-mode"><!-- 记录标题与取消、保存操作 --></div>
+    <div class="sf-bd"><!-- 字段分组与字段组件 --></div>
+  </div>
+</template>
+
+<template data-architecture="创建或编辑表单" data-slot="c1 .stage" data-layer="overlay">
+  <div class="modal-mask"></div>
+  <div class="form-modal">
+    <div class="fm-hd">
+      <span class="fm-title"><!-- 表名称 --></span>
+      <div class="fm-ops"><!-- 取消、保存并继续、保存 --></div>
+    </div>
+    <div class="fm-bd"><!-- row cols-* 与字段组件 --></div>
+  </div>
+</template>
+
+<template data-component="表单字段行" data-group="表单">
+  <div class="row"><!-- 按列数追加 cols-2 或 cols-3；内部放字段组件 --></div>
+</template>
+
+<!-- ══════════ 九、卡片视图 ══════════ -->
+<template data-component="卡片视图" data-group="业务视图">
+  <div class="table-view record-card-grid-view">
+    <div class="record-card-grid">
+      <article class="record-card">
+        <b><!-- 记录标题 --></b>
+        <dl><!-- 字段名称与字段值 --></dl>
+        <div class="ci-ops"><!-- 行内快捷按钮 --></div>
+      </article>
+    </div>
+  </div>
+</template>
+
+<template data-component="卡片视图-快捷操作型" data-group="业务视图">
+  <div class="card-list">
+    <div class="ci">
+      <div class="ci-title"><!-- 记录标题 --></div>
+      <div class="ci-row"><!-- 字段值 --></div>
+      <div class="ci-ops"><!-- 行内快捷按钮 --></div>
+    </div>
+  </div>
+</template>
+
+<!-- ══════════ 十五、表格业务视图目录 ══════════ -->
+<!-- 合法视图引擎名称：网格、透视表、甘特、卡片、任务、日历、看板。视图名称由用户配置，不代表新引擎。 -->
+<template data-component="透视表视图" data-group="业务视图">
+  <div class="table-view pivot-view">
+    <div class="pivot-layout">
+      <aside class="pivot-settings"><!-- 字段搜索、行分组、列分组、统计值 --></aside>
+      <div class="pivot-result"><!-- 透视结果表 --></div>
+    </div>
+  </div>
+</template>
+
+<template data-component="甘特视图" data-group="业务视图">
+  <div class="table-view gantt-view">
+    <div class="gantt-split">
+      <div class="gantt-grid"><!-- 字段表 --></div>
+      <div class="split-handle"></div>
+      <div class="gantt-area">
+        <div class="gantt-zoom"><!-- 时间粒度 --></div>
+        <div class="gantt-timescale"><!-- 时间轴 --></div>
+        <div class="gantt-bars"><!-- 任务条、进度、依赖线与里程碑 --></div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<template data-component="任务视图" data-group="业务视图">
+  <div class="table-view task-view">
+    <div class="task-render">
+      <div class="task-head"><!-- 字段表头 --></div>
+      <div class="task-group-row"><!-- 分组行 --></div>
+      <div class="task-record"><!-- 层级任务记录 --></div>
+    </div>
+    <div class="task-foot"><!-- 记录数与显示开关 --></div>
+  </div>
+</template>
+
+<template data-component="日历视图" data-group="业务视图">
+  <div class="table-view calendar-view">
+    <div class="calendar-month-view">
+      <div class="calendar-view-tools"><!-- 日历工具 --></div>
+      <div class="calendar-toolbar"><!-- 月份与导航 --></div>
+      <div class="calendar-grid month-grid"><!-- 7列×6行日期网格与日程卡 --></div>
+    </div>
+  </div>
+</template>
+
+<template data-component="看板视图" data-group="业务视图">
+  <div class="table-view kanban-view">
+    <div class="kanban-columns">
+      <section class="kanban-group">
+        <header><!-- 分组名称、数量与操作 --></header>
+        <div class="kanban-list">
+          <article class="kanban-item"><!-- 记录标题与字段 --></article>
+        </div>
+      </section>
+    </div>
+  </div>
+</template>

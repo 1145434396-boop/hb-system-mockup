@@ -1,0 +1,356 @@
+<!--
+伙伴云界面示意图 · 结构 3/3：详情与自定义页面架构、组件名称
+
+本文件是组件目录，不是整页示例：
+1. 每个 <template> 独立，出现顺序不代表页面默认顺序。
+2. 只选需求需要的架构和组件，不整段复制。
+3. 不含业务示例、示例数据和默认文案；具体字段结构按需读取 c2-table-form.html。
+4. 尺寸、颜色和交互外观由 base.css 与 skins/*.css 提供。
+-->
+
+<!-- ══════════ 七、记录详情弹窗架构 ══════════ -->
+<template data-architecture="记录详情弹窗" data-use="仅在明确要求弹窗详情时">
+  <div class="modal-mask"></div>
+  <div class="modal">
+    <div class="modal-hd">
+      <span class="arrows"><svg class="ico"><use href="#i-prev"/></svg><svg class="ico"><use href="#i-next"/></svg></span>
+      <span class="doc-title"><!-- 记录标题 --></span>
+      <span class="caret"><!-- 展开图标 --></span>
+      <div class="bar-icons"><!-- 记录操作组件 --></div>
+    </div>
+    <div class="modal-bd">
+      <div class="modal-main"><!-- 组件：内容卡片 --></div>
+      <div class="modal-side">
+        <div class="side-tabs"><!-- 组件：动态/评论页签 --></div>
+        <div class="feed"><!-- 组件：动态流 --></div>
+        <div class="comment-box"><!-- 组件：评论框 --></div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<template data-component="内容卡片" data-group="记录详情">
+  <div class="widget-card">
+    <div class="wc-hd"><!-- 卡片标题 --></div>
+    <div class="wc-bd"><!-- 字段或其他已收录组件 --></div>
+  </div>
+</template>
+
+<template data-component="动态条目" data-group="记录详情">
+  <div class="fi">
+    <span class="ic"><svg class="ico"><use href="#i-edit"/></svg></span> <!-- 系统变更条目的铅笔图标 -->
+    <div class="bd">
+      <div class="mt"><!-- 来源与时间 --></div>
+      <div class="ct"><!-- 动态内容 --></div>
+    </div>
+  </div>
+</template>
+
+<template data-component="评论框" data-group="记录详情">
+  <div class="comment-box">
+    <div class="ipt"><!-- 评论输入区 --></div>
+    <div class="ops"><!-- 附件与发送操作 --></div>
+  </div>
+</template>
+
+<!-- ══════════ 十、工作台 / 数据分析页架构 ══════════ -->
+<template data-architecture="工作台或数据分析页">
+  <div class="page"><!-- 按需求插入独立组件；无默认组件、无默认顺序 --></div>
+</template>
+
+<template data-component="横幅部件" data-group="工作台">
+  <div class="w-banner"><h1><!-- 页面标题 --></h1></div>
+</template>
+
+<template data-component="筛选部件" data-group="工作台">
+  <div class="w-filters">
+    <div class="w-filter"><!-- 筛选项 --></div>
+  </div>
+</template>
+
+<template data-component="快捷方式" data-group="工作台">
+  <div class="w-card w-shortcut">
+    <div class="wc-hd"><!-- 组件名称 --></div>
+    <div class="wc-bd sc-grid">
+      <div class="sc"><span class="sc-ic"><svg class="ico"><use href="#i-app-s"/></svg></span><!-- 快捷入口名称 --></div> <!-- 快捷方式的彩色应用图标，同 c1 第 57 行的可选集 -->
+    </div>
+  </div>
+</template>
+
+<template data-component="单指标-居中大数" data-group="统计">
+  <div class="w-card w-stat center">
+    <div class="st-lb"><!-- 指标名称 --></div>
+    <div class="st-vl"><!-- 指标值 --></div>
+    <div class="st-trend"></div>
+  </div>
+</template>
+
+<template data-component="单指标-左文右图" data-group="统计">
+  <div class="w-card w-stat strip">
+    <div class="st-bd">
+      <div class="st-lb"><!-- 指标名称 --></div>
+      <div class="st-vl"><!-- 指标值 --></div>
+    </div>
+    <div class="st-spark"><svg></svg></div> <!-- 走势线：手绘 polyline，非图标库 -->
+  </div>
+</template>
+
+<template data-component="页签容器" data-group="容器" data-measured="页签栏高40；卡片圆角9；内容高度按页面配置">
+  <div class="w-card page-tabs-card">
+    <div class="page-tabs-nav">
+      <div class="page-tabs-list"><span class="on"><!-- 当前页签名称 --></span><!-- 其他页签名称 --></div>
+    </div>
+    <div class="page-tabs-body"><!-- 当前页签组件 --></div>
+  </div>
+</template>
+
+<template data-component="待办或流程任务子区" data-group="流程">
+  <div class="w-sub">
+    <div class="ws-hd"><!-- 子区名称与筛选 --></div>
+    <div class="task"><!-- 任务条目 --></div>
+  </div>
+</template>
+
+<template data-component="图表部件" data-group="图表">
+  <div class="w-card w-chart">
+    <div class="wc-hd"><!-- 图表名称与操作 --></div>
+    <div class="wc-bd"><svg></svg></div> <!-- 图表绘图区：手绘，颜色必须用 var() 见 SKILL.md -->
+    <div class="legend"><!-- 图例 --></div>
+  </div>
+</template>
+
+<template data-component="统计表" data-group="表格">
+  <div class="w-card w-pivot">
+    <div class="wc-hd"><!-- 统计表名称与操作 --></div>
+    <table><!-- 维度、指标与数据行 --></table>
+  </div>
+</template>
+
+<!-- ══════════ 十一、企业门户架构 ══════════ -->
+<template data-architecture="企业门户">
+  <div class="portal">
+    <div class="portal-top"><!-- 顶部入口 --></div>
+    <div class="portal-logo"><!-- 企业标志 --></div>
+    <h1 class="portal-name"><!-- 企业名称 --></h1>
+    <div class="portal-sub"><!-- 企业说明 --></div>
+    <div class="portal-apps"><!-- 组件：工作区入口 --></div>
+    <div class="portal-foot"><!-- 企业设置入口 --></div>
+  </div>
+</template>
+
+<template data-component="工作区入口" data-group="企业门户">
+  <div class="pa">
+    <span class="pa-ic"><svg class="ico"><use href="#i-app-s"/></svg></span>
+    <span class="pa-nm"><!-- 工作区名称 --></span>
+  </div>
+</template>
+
+<!-- ══════════ 十二、内容组件目录 ══════════ -->
+<template data-component="富文本" data-group="内容">
+  <div class="w-card content-widget rich-widget">
+    <div class="wc-hd"><!-- 组件名称 --></div>
+    <div class="wc-bd rich-body"><!-- 富文本内容 --></div>
+  </div>
+</template>
+
+<template data-component="图片" data-group="内容">
+  <div class="w-card content-widget image-widget">
+    <div class="wc-hd"><!-- 组件名称 --></div>
+    <a class="image-link"><img src="" alt=""/></a>
+  </div>
+</template>
+
+<template data-component="轮播图" data-group="内容">
+  <div class="w-card content-widget carousel-widget">
+    <div class="wc-hd"><!-- 组件名称 --></div>
+    <div class="carousel">
+      <div class="slides"><!-- 轮播项 --></div>
+      <span class="prev"><svg class="ico"><use href="#i-prev"/></svg></span>
+      <span class="next"><svg class="ico"><use href="#i-next"/></svg></span>
+      <div class="dots"><!-- 轮播指示 --></div>
+    </div>
+  </div>
+</template>
+
+<template data-component="组图" data-group="内容">
+  <div class="w-card content-widget image-list-widget">
+    <div class="wc-hd"><!-- 组件名称 --></div>
+    <div class="image-mosaic"><!-- 组图项 --></div>
+  </div>
+</template>
+
+<!-- 图文列表合法版式名称：版式1排行、版式2左图右文、版式3主图加文章行、版式4左文右图、版式5上图下文、版式7多列图片卡 -->
+<template data-component="图文列表" data-group="内容">
+  <div class="w-card content-widget graphic-list-widget">
+    <div class="wc-hd"><!-- 组件名称 --></div>
+    <div><!-- 按已实测版式选择对应结构 class --></div>
+  </div>
+</template>
+
+<template data-component="表格列表" data-group="内容">
+  <div class="w-card content-widget table-item-list-widget">
+    <div class="wc-hd"><!-- 组件名称与操作 --></div>
+    <div class="grid"><!-- 复用 c2 网格结构 --></div>
+  </div>
+</template>
+
+<template data-component="快捷表单" data-group="内容">
+  <div class="w-card content-widget fast-form-widget">
+    <div class="wc-hd"><!-- 组件名称 --></div>
+    <div class="fast-form-body">
+      <!-- 复用 c2 字段结构 -->
+      <div class="fast-form-actions"><!-- 重填与提交操作 --></div>
+    </div>
+  </div>
+</template>
+
+<template data-component="任务清单" data-group="内容">
+  <div class="w-card content-widget rich-widget rich-checklist">
+    <div class="wc-hd"><!-- 组件名称 --></div>
+    <div class="rich-body"><ul class="checklist"><!-- role=checkbox 条目 --></ul></div>
+  </div>
+</template>
+
+<template data-component="嵌入" data-group="内容">
+  <div class="w-card content-widget embed-widget">
+    <div class="wc-hd"><!-- 组件名称 --></div>
+    <div class="embed-frame"><iframe src="" title=""></iframe></div>
+  </div>
+</template>
+
+<!-- ══════════ 十三、原生组件目录 ══════════ -->
+<template data-component="大幅富文本" data-group="原生组件">
+  <div class="rich-hero"><!-- 标志、标题、副标题、搜索或操作 --></div>
+</template>
+
+<template data-component="装饰" data-group="原生组件">
+  <div class="decoration"><svg></svg></div> <!-- 装饰图形：自由绘制 -->
+</template>
+
+<template data-component="多进度条" data-group="统计">
+  <div class="w-card multi-progress-card">
+    <div class="wc-hd"><!-- 组件名称 --></div>
+    <div class="progress-row">
+      <span><!-- 指标名称 --></span><b><!-- 当前值与目标值 --></b>
+      <i><em></em></i>
+    </div>
+  </div>
+</template>
+
+<template data-component="日期时间-背景型" data-group="日期">
+  <div class="datetime-hero"><!-- 标题、日期与时间 --></div>
+</template>
+
+<template data-component="日期时间-上下型" data-group="日期">
+  <div class="w-card datetime-time-date">
+    <time class="time"></time><time class="date"></time>
+  </div>
+</template>
+
+<!-- 快捷按钮合法版式名称：横排、竖排小图标、竖排裸图标 -->
+<template data-component="快捷按钮" data-group="按钮">
+  <div class="w-card shortcut-widget">
+    <div class="shortcut"><span class="shortcut-icon"><svg class="ico"><use href="#i-app-s"/></svg></span><span><!-- 入口名称 --></span></div>
+  </div>
+</template>
+
+<template data-component="我发起的流程" data-group="流程">
+  <div class="w-card procedure-process-widget">
+    <div class="wc-hd"><!-- 组件名称 --></div>
+    <div class="process-filters"><!-- 状态筛选 --></div>
+    <div class="process-list"><!-- 流程记录或空状态 --></div>
+  </div>
+</template>
+
+<template data-component="多项汇总" data-group="统计">
+  <div class="w-card multi-stats-widget">
+    <div class="wc-hd"><!-- 组件名称 --></div>
+    <div class="multi-stat-row"><span><!-- 指标名称 --></span><b class="pill"><!-- 指标值 --></b></div>
+  </div>
+</template>
+
+<template data-component="分类小计" data-group="统计">
+  <div class="w-card subtotal-widget">
+    <div class="wc-hd"><!-- 组件名称 --></div>
+    <div class="subtotal-head"><!-- 总计 --></div>
+    <div class="subtotal-row"><!-- 分类名称与数值 --></div>
+  </div>
+</template>
+
+<template data-component="日历-带日程" data-group="日历">
+  <div class="w-card calendar-agenda-widget">
+    <div class="calendar-toolbar"><!-- 月份与导航 --></div>
+    <div class="calendar-grid"><!-- 星期与日期网格 --></div>
+    <div class="agenda-list"><!-- 日程列表或空状态 --></div>
+  </div>
+</template>
+
+<template data-component="日历-单月视图" data-group="日历">
+  <div class="calendar-month-view">
+    <div class="calendar-view-tools"><!-- 视图操作 --></div>
+    <div class="calendar-toolbar"><!-- 月份与导航 --></div>
+    <div class="calendar-grid month-grid"><!-- 7列×6行日期网格 --></div>
+  </div>
+</template>
+
+<!-- ══════════ 十四、独立自定义详情页架构（2026-08-07 伙伴云真实页面实测） ══════════
+结构边界：
+1. 自定义详情页默认是一张独立内容画布，不复用产品壳，也不包在记录详情弹窗中。
+2. 独立详情页不出现一级顶栏、左侧导航、记录操作栏、弹窗遮罩、弹窗标题栏或底部栏。
+3. 页面内容使用 24 栅格：画布上边距 48、左右内缩 96、组件间距 20；双栏可按 8/24＋16/24 组合。
+4. 标题卡片、选项字段步骤样式、页签容器都是真实组件；“详情侧栏卡/详情主内容卡/归档页签卡”只是布局角色，不是组件名称。
+5. 标题卡片只承载摘要信息，不放按钮；独立自定义详情页本身不设置系统操作栏。
+-->
+<template data-architecture="独立自定义详情页" data-default-for="详情页" data-source="伙伴云真实自定义详情页">
+  <main class="custom-detail-page">
+    <div class="item-page-canvas">
+      <div class="item-page-grid">
+        <!-- 可选组件：标题卡片，占宽 24 -->
+        <!-- 可选组件：选项字段-步骤样式，占宽 24 -->
+        <!-- 常见布局：页签容器占宽 8＋页签容器占宽 16；这是栅格组合，不是专用侧栏/主卡组件 -->
+        <!-- 可选组件：页签容器，占宽 24；页签内可放表格列表、字段、统计、流程等已收录组件 -->
+      </div>
+    </div>
+  </main>
+</template>
+
+<template data-component="记录操作栏" data-group="记录详情系统层" data-use="仅在用户明确要求产品壳或记录弹窗时" data-measured="高56；左右内边距16；标题16/500；按钮高32">
+  <div class="item-page-toolbar">
+    <div class="item-page-nav"><!-- 上一条、下一条 --></div>
+    <div class="item-page-record-title"><!-- 记录主标题 --></div>
+    <div class="item-page-shortcuts"><!-- 业务快捷按钮 --></div>
+    <div class="item-page-system-actions"><!-- 产品原生记录操作 --></div>
+  </div>
+</template>
+
+<template data-component="标题卡片" data-group="自定义详情页" data-rule="不放按钮；独立详情页不设记录操作栏" data-measured="卡片高180、内边距20、圆角9；标题20/600；副标题14；关键字段标签12、值14">
+  <div class="w-card page-header-card span-24">
+    <div class="page-header-heading">
+      <div class="page-header-title"><!-- 主标题 --></div>
+      <div class="page-header-subtitle"><!-- 副标题或编号 --></div>
+    </div>
+    <div class="page-header-info">
+      <div class="page-header-info-item">
+        <div class="page-header-info-label"><!-- 关键字段名称 --></div>
+        <div class="page-header-info-value"><!-- 关键字段值；字段类型沿用 c2 --></div>
+      </div>
+      <!-- 共 1～4 个关键字段 -->
+    </div>
+  </div>
+</template>
+
+<template data-component="选项字段-步骤样式" data-group="自定义详情页" data-measured="高40、圆角9；它是选项字段的展示样式，不是独立阶段组件">
+  <div class="option-steps span-24">
+    <span class="preceding"><!-- 当前值之前的选项 --></span>
+    <span class="current"><!-- 当前选项 --></span>
+    <span class="following"><!-- 当前值之后的选项 --></span>
+  </div>
+</template>
+
+<template data-component="详情页24栅格" data-group="自定义详情页" data-measured="24列；列间距20；组件纵向间距20">
+  <div class="item-page-grid">
+    <div class="span-8"><!-- 已收录组件 --></div>
+    <div class="span-16"><!-- 已收录组件 --></div>
+    <div class="span-24"><!-- 已收录组件 --></div>
+  </div>
+</template>

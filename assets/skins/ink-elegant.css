@@ -1,0 +1,43 @@
+/* 皮肤：中式雅韵（对应官网风格 S10 Chinese Elegant）。黛青主色、宣纸底、朱砂点缀。
+   适用：文化/茶/中医/传统手工/政务文化类客户的营销图。
+   慎用：科技产品、年轻潮流品牌。 */
+:root {
+  --backdrop: #EFEDE4;   /* 画布外围衬底（html 背景） */
+  --font: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+
+  --primary: #3A5F55;
+  --primary-deep: #2C4A42;
+  --primary-soft: rgba(58, 95, 85, .12);
+  --primary-08: rgba(58, 95, 85, .07);
+
+  --page-bg: #F6F4EC;
+  --card-bg: #FFFFFF;
+  --line: #E3DFD2;
+  --field-bg: #F2EFE6;
+  --filter-bg: #F2EFE6;
+  --tag-bg: rgba(50, 60, 50, .08);
+  --ink-85: rgba(35, 42, 38, .90);
+  --ink-65: rgba(35, 42, 38, .64);
+  --ink-45: rgba(35, 42, 38, .45);
+  --ink-25: rgba(35, 42, 38, .26);
+
+  --c-blue: #557C94;
+  --c-teal: #4F8D82;
+  --c-green: #5F8E5B;
+  --c-red: #B4453C;
+  --c-orange: #C58B49;
+  --c-purple: #77708D;
+  --c-yellow: #C2A855;
+
+  --tint-blue: #E6EDF1;
+  --tint-teal: #E4EFEC;
+  --tint-yellow: #F4EDD9;
+
+  --banner-bg: linear-gradient(180deg, #4C7266, #3A5F55);
+
+  --accent: #B4453C;
+  --accent-bg: #F2E2DE;
+
+  --shadow-card: 0 4px 12px rgba(35, 42, 38, .06);
+  --shadow-window: 0 40px 90px -30px rgba(35, 42, 38, .30);
+}
