@@ -2,7 +2,7 @@
    适用：高端精品/金融/律所/地产类客户的营销图。
    慎用：大众消费品、信息密集的活泼业务。 */
 :root {
-  --backdrop: #EDECE7;   /* 画布外围衬底（html 背景） */
+  --backdrop: #F7F6F2;   /* ＝报告同名皮肤纸色（--paper），嵌报告无缝 */
   --font: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
 
   --primary: #2F2C26;

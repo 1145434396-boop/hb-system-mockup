@@ -9,7 +9,8 @@
 -->
 
 <!-- ══════════ 七、记录详情弹窗架构 ══════════ -->
-<template data-architecture="记录详情弹窗" data-use="仅在明确要求弹窗详情时">
+<template data-architecture="记录详情弹窗" data-use="仅在明确要求弹窗详情时"
+          data-measured="遮罩 rgba(34,34,34,.45)；弹窗离视口 30/24（上下/左右）；弹窗顶栏＝记录功能区，同为 56 高白底下边线">
   <div class="modal-mask"></div>
   <div class="modal">
     <div class="modal-hd">
@@ -62,7 +63,7 @@
   <div class="w-banner"><h1><!-- 页面标题 --></h1></div>
 </template>
 
-<template data-component="筛选部件" data-group="工作台">
+<template data-component="筛选部件" data-group="页面部件" data-measured="独立部件白卡：白底圆角9、高40、右缘可带日历/下拉图标；不与页底融合（2026-08-10 实测）">
   <div class="w-filters">
     <div class="w-filter"><!-- 筛选项 --></div>
   </div>
@@ -303,6 +304,7 @@
 -->
 <template data-architecture="独立自定义详情页" data-default-for="详情页" data-source="伙伴云真实自定义详情页">
   <main class="custom-detail-page">
+    <!-- 组件：记录功能区（默认包含，2026-08-10 实测确认：自定义详情页自带此栏，无论弹窗或独立形态） -->
     <div class="item-page-canvas">
       <div class="item-page-grid">
         <!-- 可选组件：标题卡片，占宽 24 -->
@@ -314,16 +316,16 @@
   </main>
 </template>
 
-<template data-component="记录操作栏" data-group="记录详情系统层" data-use="仅在用户明确要求产品壳或记录弹窗时" data-measured="高56；左右内边距16；标题16/500；按钮高32">
+<template data-component="记录功能区" data-group="自定义详情页" data-use="自定义详情页默认包含（弹窗与独立形态皆有，实测确认）" data-measured="高 56、白底、下边线 1px rgba(0,0,0,.08)、左右内边距 16；标题 16/500；快捷按钮高 32 圆角 6，实底／彩色线框／置灰三态并存（实测同一页同时出现绿实底、红线框、灰置灰）；右侧系统操作：编辑、复制、分享、打印、历史、更多、关闭">
   <div class="item-page-toolbar">
-    <div class="item-page-nav"><!-- 上一条、下一条 --></div>
-    <div class="item-page-record-title"><!-- 记录主标题 --></div>
-    <div class="item-page-shortcuts"><!-- 业务快捷按钮 --></div>
-    <div class="item-page-system-actions"><!-- 产品原生记录操作 --></div>
+    <div class="item-page-nav"><svg class="ico"><use href="#i-prev"/></svg><svg class="ico"><use href="#i-next"/></svg></div>
+    <div class="item-page-record-title"><!-- 记录主标题 --> <span class="caret">▾</span></div>
+    <div class="item-page-shortcuts"><!-- 业务快捷按钮：.b.solid 彩色实底 / .b.line 线框 / 加 .dis 置灰 --></div>
+    <div class="item-page-system-actions"><!-- 编辑（.b.text）＋图标：copy share print history more close --></div>
   </div>
 </template>
 
-<template data-component="标题卡片" data-group="自定义详情页" data-rule="不放按钮；独立详情页不设记录操作栏" data-measured="卡片高180、内边距20、圆角9；标题20/600；副标题14；关键字段标签12、值14">
+<template data-component="标题卡片" data-group="自定义详情页" data-rule="不放按钮；操作按钮属于记录功能区" data-measured="卡片高180、内边距20、圆角9；标题20/600；副标题14；关键字段标签12、值14">
   <div class="w-card page-header-card span-24">
     <div class="page-header-heading">
       <div class="page-header-title"><!-- 主标题 --></div>
@@ -339,7 +341,7 @@
   </div>
 </template>
 
-<template data-component="选项字段-步骤样式" data-group="自定义详情页" data-measured="高40、圆角9；它是选项字段的展示样式，不是独立阶段组件">
+<template data-component="选项字段-步骤样式" data-group="自定义详情页" data-measured="容器高 40 圆角 9；每段箭头形 clip-path（切口 10px、段间叠合 -10px、padding 0 20）；已过段＝主色 25% 底＋ink-45 字，当前段＝主色实底白字，未来段＝白底 ink-65。它是选项字段的展示样式，不是独立阶段组件">
   <div class="option-steps span-24">
     <span class="preceding"><!-- 当前值之前的选项 --></span>
     <span class="current"><!-- 当前选项 --></span>

@@ -1,19 +1,23 @@
 #!/usr/bin/env python3
-"""界面示意图产出物静态检查。纯标准库，不依赖浏览器。
+"""界面示意图产出物检查。纯标准库；空隙检查会调一次本机 Chrome，没有就自动跳过。
 
 用法：
     python3 scripts/check.py 图.html            # 人读的分级报告
     python3 scripts/check.py 图.html --json     # 机读
+    python3 scripts/check.py 图.html --no-render  # 只跑文本检查，不启动浏览器
 
 检查的是"该由机器判定、肉眼容易漏"的项：色值有没有写死、有没有用不存在的
-组件类、导出前置条件、以及几条踩过坑的结构禁令。看得见的对齐和观感仍然要
-自己看截图，见 references/canvas-spec.md 的验证清单。
+组件类、导出前置条件、几条踩过坑的结构禁令，以及渲染后组件有没有留下大片
+空白。剩下的对齐与观感仍然要自己看截图，见 references/canvas-spec.md 的验证清单。
 
 退出码：有 Blocker 返回 1，其余返回 0。
 """
 import json
+import os
 import re
+import subprocess
 import sys
+import tempfile
 from pathlib import Path
 
 SKILL = Path(__file__).resolve().parent.parent
@@ -49,7 +53,92 @@ def line_of(text, idx):
     return text.count("\n", 0, idx) + 1
 
 
-def check(path):
+CHROME = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+
+# 渲染后量空隙：内容没填满容器时画面上会出现空洞，静态文本看不出来。
+# 注入到图的副本里跑一遍，结果写进 <title>，再用 --dump-dom 取回。
+PROBE = r"""
+<script>
+(function () {
+  var BOTTOM = 48, RIGHT = 120;
+  // 只查布局层（组件之间、组件到画布边缘）。组件内部的留白由数据量决定（图片格、
+  // 列表行数、卡片字段多少），不是病，一律跳过；画布/窗口/浮层/导航按设计留边也跳过。
+  var SKIP = /\b(stage|window|float|side|tree|win-body|main|callout|hscroll|kanban-group|kanban-columns|w-card|comp|widget|kanban-item|record-card|field|f-value|modal|grid|page-header)\b/;
+  document.querySelectorAll('.stage').forEach(function (s) { s.style.zoom = 1; });
+  var out = [];
+  document.querySelectorAll('*').forEach(function (e) {
+    var cls = typeof e.className === 'string' ? e.className : '';
+    if (SKIP.test(cls) || !e.children.length) return;
+    var s = getComputedStyle(e);
+    if (s.display === 'none' || s.position === 'absolute') return;
+    var r = e.getBoundingClientRect();
+    if (r.width < 300 || r.height < 100) return;
+    var maxB = 0, maxR = 0;
+    for (var i = 0; i < e.children.length; i++) {
+      var c = e.children[i].getBoundingClientRect();
+      if (c.height === 0) continue;
+      if (c.bottom > maxB) maxB = c.bottom;
+      if (c.right > maxR) maxR = c.right;
+    }
+    if (!maxB) return;
+    var gapB = Math.round(r.bottom - (parseFloat(s.paddingBottom) || 0) - maxB);
+    var gapR = Math.round(r.right - (parseFloat(s.paddingRight) || 0) - maxR);
+    var hit = { cls: cls.slice(0, 44) || e.tagName.toLowerCase(),
+                box: [Math.round(r.x), Math.round(r.y), Math.round(r.width), Math.round(r.height)] };
+    if (gapB > BOTTOM) hit.bottom = gapB;
+    if (gapR > RIGHT && r.width > 500) hit.right = gapR;
+    if (hit.bottom || hit.right) out.push(hit);
+  });
+  // 父子同时留空时只报最外层，免得一处空白刷十条
+  out = out.filter(function (a) {
+    return !out.some(function (b) {
+      return b !== a
+        && b.box[1] <= a.box[1] && b.box[1] + b.box[3] >= a.box[1] + a.box[3]
+        && b.box[0] <= a.box[0] && b.box[0] + b.box[2] >= a.box[0] + a.box[2]
+        && Math.abs((b.bottom || 0) - (a.bottom || 0)) < 8;
+    });
+  });
+  var extra = [];
+  var win = document.querySelector('.window'), st = document.querySelector('.stage');
+  if (win && win.scrollHeight > win.clientHeight + 4)
+    extra.push({ kind: 'clipped', over: win.scrollHeight - win.clientHeight });
+  if (st) {
+    var sr = st.getBoundingClientRect();
+    document.querySelectorAll('.float').forEach(function (fl) {
+      var fr = fl.getBoundingClientRect();
+      if (fr.bottom > sr.bottom + 2) extra.push({ kind: 'float-out', over: Math.round(fr.bottom - sr.bottom) });
+      if (fr.top < sr.top - 2) extra.push({ kind: 'float-out', over: Math.round(sr.top - fr.top) });
+    });
+  }
+  document.title = 'GAPS' + JSON.stringify({ gaps: out, extra: extra });
+})();
+</script>
+"""
+
+
+def measure_gaps(path, text):
+    """返回空隙列表；Chrome 不可用或页面没跑起来时返回 None。"""
+    if not os.path.exists(CHROME):
+        return None
+    m = re.search(r"\.stage \{ height: (\d+)px", text)
+    height = int(m.group(1)) + 96 if m else 1200
+    d = os.path.dirname(os.path.abspath(path))
+    tmp = tempfile.NamedTemporaryFile("w", suffix=".html", delete=False, dir=d, encoding="utf-8")
+    tmp.write(text + PROBE)
+    tmp.close()
+    try:
+        r = subprocess.run([CHROME, "--headless", "--dump-dom", "--virtual-time-budget=3000",
+                            f"--window-size=1704,{height}", "--hide-scrollbars", tmp.name],
+                           capture_output=True, text=True, timeout=90)
+        m = re.search(r"<title>GAPS(.*?)</title>", r.stdout, re.S)
+        return json.loads(m.group(1)) if m else None
+    except Exception:
+        return None
+    finally:
+        os.unlink(tmp.name)
+
+
+def check(path, render=True):
     text = Path(path).read_text(encoding="utf-8")
     styles, body = split_doc(text)
     findings = []
@@ -133,6 +222,29 @@ def check(path):
             add("High", "stage-no-height",
                 ".stage 没设 height：画布高度必须按渲染实测回填，否则导出会截断或留白")
 
+    # ── Medium：渲染后组件留下大片空白 ─────────────────────────────
+    if render:
+        r = measure_gaps(path, text)
+        gaps = (r or {}).get("gaps", [])
+        for e in (r or {}).get("extra", []):
+            if e["kind"] == "clipped":
+                add("High", "content-clipped",
+                    f"窗口内容比窗口高 {e['over']}px，底部被裁掉：整图观感偏下。把 .stage 高度按内容实高回填")
+            else:
+                add("High", "float-out",
+                    f"浮层探出画布 {e['over']}px：会被导出裁掉或压住窗口边缘。调浮层 top 或加高 .stage")
+        if gaps:
+            for g in gaps:
+                part = []
+                if g.get("bottom"):
+                    part.append(f"底部空 {g['bottom']}px")
+                if g.get("right"):
+                    part.append(f"右侧空 {g['right']}px")
+                x, y, w, h = g["box"]
+                add("Medium", "empty-gap",
+                    f".{g['cls']} {'，'.join(part)}（{w}×{h}，位置 x{x} y{y}）："
+                    "内容没填满容器，画面上会看到空洞。补内容或把容器高度收到贴合")
+
     # ── 汇总 ───────────────────────────────────────────────────────
     order = {"Blocker": 0, "High": 1, "Medium": 2, "Nit": 3}
     findings.sort(key=lambda f: (order[f["level"]], f["rule"], f["line"] or 0))
@@ -145,12 +257,12 @@ def main():
     if not args:
         print(__doc__)
         return 2
-    findings = check(args[0])
+    findings = check(args[0], render="--no-render" not in sys.argv)
     if as_json:
         print(json.dumps(findings, ensure_ascii=False, indent=2))
     else:
         if not findings:
-            print("✓ 静态检查通过（颜色 token、组件存在性、导出前置、结构禁令）")
+            print("✓ 检查通过（颜色 token、组件存在性、导出前置、结构禁令、空隙）")
             print("  注意：对齐与观感仍需看截图，见 canvas-spec.md 验证清单")
         else:
             counts = {}

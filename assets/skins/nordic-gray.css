@@ -3,7 +3,7 @@
    适用：SaaS/研发/制造等工具型客户的营销图，"冷静专业"气质。
    慎用：需要热情亲和感的行业；状态色饱和度低，异常项的视觉警示弱于其他皮肤。 */
 :root {
-  --backdrop: #E8EDF2;
+  --backdrop: #F5F7F9;   /* ＝报告同名皮肤纸色（--paper），嵌报告无缝 */
   --font: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
 
   --primary: #5E81AC;        /* Nord10 */

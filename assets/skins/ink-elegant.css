@@ -2,7 +2,7 @@
    适用：文化/茶/中医/传统手工/政务文化类客户的营销图。
    慎用：科技产品、年轻潮流品牌。 */
 :root {
-  --backdrop: #EFEDE4;   /* 画布外围衬底（html 背景） */
+  --backdrop: #F6F4EC;   /* ＝报告同名皮肤纸色（--paper），嵌报告无缝 */
   --font: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
 
   --primary: #3A5F55;

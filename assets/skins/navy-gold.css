@@ -2,7 +2,7 @@
    适用：通用政企/制造类商务场景；也是 hb-digital-proposal 报告的默认皮肤，报告配图用它自动同色系。
    慎用：需要活泼、年轻或科技气质的场景。 */
 :root {
-  --backdrop: #EBEDE9;   /* 画布外围衬底（html 背景） */
+  --backdrop: #F5F6F4;   /* ＝报告同名皮肤纸色（--paper），嵌报告无缝 */
   --font: -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", "Microsoft YaHei", sans-serif;
 
   /* 主色系：藏蓝 */

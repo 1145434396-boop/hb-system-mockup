@@ -10,12 +10,15 @@
 -->
 
 <!-- ══════════ 三～五、列表页架构 ══════════ -->
-<template data-architecture="列表页主内容" data-slot="c1 .main">
+<template data-architecture="列表页主内容" data-slot="c1 .main" data-measured="视图区容器（_hb-view-component_）：白底、圆角6、1px 黑8%边、四周留缝 12-16">
   <!-- 直接插入 c1 的 .main，不新增 .main 容器 -->
   <!-- 组件：视图页签 -->
-  <!-- 组件：工具栏 -->
-  <!-- 组件：当前业务视图 -->
-  <!-- 组件：底部统计条 -->
+  <div class="view-box">
+    <!-- 组件：工具栏 -->
+    <!-- 组件：当前业务视图 -->
+    <!-- 组件：底部统计条 -->
+  </div>
+  <!-- 工具栏与视图必须同在 .view-box 白卡内，缺这层会出现工具栏透灰底的色带（实测确认） -->
 </template>
 
 <template data-component="视图页签" data-group="列表页">
@@ -26,7 +29,8 @@
   </div>
 </template>
 
-<template data-component="工具栏" data-group="列表页">
+<template data-component="工具栏" data-group="列表页"
+          data-measured="高 48、透明底、下边线 1px rgba(0,0,0,.08)；按钮 32 高圆角 6 padding 0 11，常态字 ink-65，激活态底 rgba(主色,.08)＋字＝主色（已配置的按钮显条数，如「筛选 1」）；右侧搜索框 32 高、主按钮 32 高分裂式（主体＋下拉箭头）">
   <div class="tools">
     <span class="tool"><svg class="ico"><use href="#i-fields"/></svg><!-- 工具名称 --></span> <!-- 按工具选：fields group filter sort freeze rowheight import export -->
     <div class="right">
@@ -36,7 +40,8 @@
   </div>
 </template>
 
-<template data-component="网格视图" data-group="业务视图">
+<template data-component="网格视图" data-group="业务视图"
+          data-measured="表头 32 高、底 rgba(0,0,0,.02)、下边线 1px、无竖线；数据行 35 高（矮档，另有中/高档，高档实测 72 且内容换行）；单元格有右竖分隔线 1px；首列＝勾选＋行号合并共 95 宽；产品默认列宽 140">
   <div class="table-view grid-view">
     <div class="grid">
       <table>
@@ -58,11 +63,30 @@
   </div>
 </template>
 
-<template data-component="底部统计条" data-group="列表页">
-  <div class="foot">
-    <span><!-- 记录数 --></span>
-    <span class="sum"><!-- 汇总方式与汇总值 --></span>
+<template data-component="分组行" data-group="业务视图"
+          data-measured="高 32、透明底、上边线 1px；折叠箭头＋分组值胶囊（20 高圆角 100、pad 0 4px、彩底白字）。分组视图里每组一行，组内数据行照常">
+  <tr class="group">
+    <td colspan="99"><span class="caret">▾</span><span class="tag c-green"><!-- 分组值 --></span></td>
+  </tr>
+</template>
+
+<template data-component="分页器" data-group="列表页"
+          data-measured="整体 32 高；页码与前后箭头 32×32 圆角 6；当前页底 rgba(主色,.08)、字＝主色。数据超一页时出现在合计行下方">
+  <div class="pager">
+    <span class="pg">‹</span><span class="pg on">1</span><span class="pg">›</span>
   </div>
+</template>
+
+<template data-component="底部合计行" data-group="列表页"
+          data-measured="表格 tfoot（高40、上边线1px、文字14/ink-85、默认左对齐）：单元格与列一一对齐、随列横向滚动。最左格记录数（如「1,073条」）；配了统计的列格＝统计方式＋数值（求和/平均值/最大值/最小值/中间值/极差/已填写/未填写/已填写占比/未填写占比，如「求和 26587」）；其余列一律留空（产品里 hover 才显「统计」占位）。禁止把合计写成堆在左下角的一行说明文字">
+  <!-- 放在 .grid 的 <table> 内、tbody 之后 -->
+  <tfoot>
+    <tr>
+      <td colspan="3"><!-- N条（记录数，占最左勾选＋行号＋首列） --></td>
+      <td class="num"><span>求和</span><b><!-- 数值 --></b></td>
+      <td><!-- 未配置统计的列留空 --></td>
+    </tr>
+  </tfoot>
 </template>
 
 <!-- ══════════ 单元格组件 ══════════ -->
@@ -304,7 +328,8 @@
   </div>
 </template>
 
-<template data-component="日历视图" data-group="业务视图">
+<template data-component="日历视图" data-group="业务视图"
+          data-measured="星期表头行 25 高、12px/ink-65、左对齐、格内左右 padding 8；日期格 86 高、边线 rgba(0,0,0,.08)；日期数字行 24 高 padding 4，本月＝主色、非本月＝ink-25，今天＝主色实底圆角白字；无底部合计行">
   <div class="table-view calendar-view">
     <div class="calendar-month-view">
       <div class="calendar-view-tools"><!-- 日历工具 --></div>
@@ -314,7 +339,7 @@
   </div>
 </template>
 
-<template data-component="看板视图" data-group="业务视图">
+<template data-component="看板视图" data-group="业务视图" data-measured="列 254 宽透明底、间距 24；列头 50 高（padding 8/0/10）＝彩底胶囊分组名＋数量，列头下压一条 2px 实线（色＝分组值色，用 header 上的 line-* 类）；卡片 254 宽白底圆角 6、padding 12、三层描边影；卡片内字段竖排——字段名 12/ink-45 一行，值 14/ink-65 一行">
   <div class="table-view kanban-view">
     <div class="kanban-columns">
       <section class="kanban-group">

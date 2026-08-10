@@ -8,36 +8,44 @@
 4. 尺寸、颜色与状态外观由 base.css 和 skins/*.css 提供。
 -->
 
-<template data-architecture="产品界面壳层">
+<template data-architecture="产品界面壳层"
+          data-measured="左右两列、左列通顶：左侧导航 248 宽从 y=0 贯到底，顶部 56 高放工作区标志＋名称＋新建；一级顶栏只覆盖右侧内容区（56 高），内含菜单图标＋当前页面名＋右侧系统图标组。顶部这一行左右两段可以同色">
   <div class="stage">
-    <div class="window">
-      <!-- 组件：一级顶栏 -->
+    <!-- 主题四选一，挂在 .window 上：
+         theme-band  顶部整条同色（左顶段＋右顶栏同为深色），侧栏其余白 —— 默认
+         theme-side  整个左列深色，右侧顶栏白
+         theme-full  整个左列深色，右侧顶栏浅一档
+         theme-light 全浅：左列与顶栏都是白底 -->
+    <div class="window theme-band">
       <div class="win-body">
-        <!-- 组件：左侧导航 -->
-        <div class="main"><!-- 页面内容插槽：放入 c2/c3 页面内部结构，不再嵌套第二个 .main --></div>
+        <!-- 组件：左侧导航（含顶部工作区块） -->
+        <div class="main">
+          <!-- 组件：一级顶栏 -->
+          <!-- 页面内容插槽：放入 c2/c3 页面内部结构，不再嵌套第二个 .main -->
+        </div>
       </div>
     </div>
   </div>
 </template>
 
-<template data-component="一级顶栏" data-group="产品壳层">
-  <div class="ws-bar">
-    <div class="ws-left">
+<template data-component="一级顶栏" data-group="产品壳层"
+          data-measured="只覆盖右侧内容区，高 56、padding 0 12；菜单图标＋当前页面名 15/500＋展开图标；右侧系统图标组 gap 18＋头像 28">
+  <div class="top-bar">
+    <span class="menu"><svg class="ico"><use href="#i-menu"/></svg></span>
+    <span class="pg"><!-- 当前页面名称 --></span>
+    <span class="caret"><!-- 展开图标 --></span>
+    <div class="right"><!-- 客服、通知、工作台、帮助与头像 --></div>
+  </div>
+</template>
+
+<template data-component="左侧导航" data-group="产品壳层"
+          data-measured="248 宽通顶；顶部 56 高工作区块（标志 32 圆形＋名称 16/500＋新建）；其下图标行 44、导航树 padding 12 8、底部条 48">
+  <div class="side">
+    <div class="side-top">
       <span class="ws-logo"><!-- 工作区标志 --></span>
       <span class="ws-name"><!-- 工作区名称 --></span>
       <span class="plus"><svg class="ico"><use href="#i-plus"/></svg></span>
     </div>
-    <div class="ws-mid">
-      <span class="menu"><svg class="ico"><use href="#i-menu"/></svg></span>
-      <span class="pg"><!-- 当前页面名称 --></span>
-      <span class="caret"><!-- 展开图标 --></span>
-    </div>
-    <div class="ws-right"><!-- 客服、通知、工作台、帮助与头像 --></div>
-  </div>
-</template>
-
-<template data-component="左侧导航" data-group="产品壳层">
-  <div class="side">
     <div class="ico-row"><!-- 首页、表格、文档、流程入口 --></div>
     <div class="tree"><!-- 导航分组、页面项、文件夹与子项 --></div>
     <div class="bottom"><!-- 管理、成员与更多操作 --></div>

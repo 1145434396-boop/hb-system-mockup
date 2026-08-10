@@ -2,7 +2,7 @@
    适用：康养/教育/消费服务/民生类客户的营销图。
    慎用：科技企业、数据驱动型产品。 */
 :root {
-  --backdrop: #F2ECE4;   /* 画布外围衬底（html 背景） */
+  --backdrop: #FAF6F1;   /* ＝报告同名皮肤纸色（--paper），嵌报告无缝 */
   --font: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
 
   --primary: #D2703F;
