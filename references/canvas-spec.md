@@ -57,7 +57,7 @@
 - 营销类（画布模式）：window-size = `1704,<stage高+96>`（1640＋body 左右 padding 32×2），**加 `--default-background-color=00000000`**，PNG 为透明底，嵌入任何底色都无缝。
 - 透明底只适用于 PNG 走 HTML 的路径（浏览器/打印时自动合成）；SVG/foreignObject 嵌报告管线仍须垫不透明 rect（见下节），否则手机端 PDF 渲成灰块。
 
-### SVG 嵌报告（hb-digital-proposal 用）
+### SVG 嵌报告（huoban-solution-report 用）
 
 取 `<style>`＋`<div class="stage">…` 包进 `<svg><foreignObject><div xmlns="http://www.w3.org/1999/xhtml">`，尺寸取 `.stage` 实际宽高。三个必修点，漏一个整图变纯文本或不渲染：
 

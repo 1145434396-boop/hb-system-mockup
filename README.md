@@ -1,4 +1,4 @@
-# hb-system-mockup
+# huoban-image-design
 
 生成伙伴云系统界面示意图。产出单文件 HTML 源 ＋ 2x PNG，画面忠于真实产品组件。
 
@@ -47,7 +47,7 @@
 
 客户有品牌色时可现造一套：复制原生蓝改 6 个主色 token 即可，中性系和状态色语义不动。取色深浅关系按 `references/skin-guide.md` 里的 Radix 12 级尺子。
 
-与 hb-digital-proposal 的报告皮肤**同名同气质**——报告选定皮肤后，配图用同名皮肤，两者自动同色系。
+与 huoban-solution-report 的报告皮肤**同名同气质**——报告选定皮肤后，配图用同名皮肤，两者自动同色系。
 
 ## 三条硬约束
 

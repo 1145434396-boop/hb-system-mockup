@@ -1,6 +1,6 @@
 ---
-name: hb-system-mockup
-description: 生成伙伴云系统界面示意图（1640 宽 HTML 源文件＋2x PNG）。当用户要"画界面示意图""画个系统界面/截图效果""界面 mockup""给报告/方案配系统图""画个列表页/详情页/工作台/看板效果图"，或 hb-digital-proposal 报告给出图需求单需要配图时，必须使用本 skill。两种产出按用途分：营销类（底层界面＋浮层强调说明，用于报告和宣传）、产品设计类（纯界面图，用户可照着在伙伴云里搭建）。画面忠于伙伴云真实产品组件，不自造组件。不用于：海报/朋友圈营销图、流程图（hb-flowchart）、ER 图（hb-er-draw）、网站（hb-website-creator）。
+name: huoban-image-design
+description: 生成伙伴云系统界面示意图（1640 宽 HTML 源文件＋2x PNG）。当用户要"画界面示意图""画个系统界面/截图效果""界面 mockup""给报告/方案配系统图""画个列表页/详情页/工作台/看板效果图"，或 huoban-solution-report 报告给出图需求单需要配图时，必须使用本 skill。两种产出按用途分：营销类（底层界面＋浮层强调说明，用于报告和宣传）、产品设计类（纯界面图，用户可照着在伙伴云里搭建）。画面忠于伙伴云真实产品组件，不自造组件。不用于：海报/朋友圈营销图、流程图（hb-flowchart）、ER 图（hb-er-draw）、网站（hb-website-creator）。
 ---
 
 # 伙伴云系统界面示意图
@@ -27,7 +27,7 @@ description: 生成伙伴云系统界面示意图（1640 宽 HTML 源文件＋2x
 
 ### 3. 确认图需求单
 
-动工前和用户对齐（来自 hb-digital-proposal 的调用也是这个格式）：
+动工前和用户对齐（来自 huoban-solution-report 的调用也是这个格式）：
 
 - 页面类型：列表页（网格/卡片/看板/甘特/日历/任务/透视）、详情页（默认自定义详情页）、记录详情弹窗、标准表单编辑态、创建表单、工作台、数据分析页、企业门户
 - 要呈现的字段和数据（用用户业务的真实字段名，数据编得像真的：编号有规则、金额有零头、人名像人名）
@@ -71,7 +71,7 @@ description: 生成伙伴云系统界面示意图（1640 宽 HTML 源文件＋2x
 2. 浏览器渲染核对（高度贴合、无溢出、组件不走样）→ 回填 `.stage` 高度
 3. 出 2x PNG。交付＝HTML 源文件＋PNG；嵌报告场景另按 canvas-spec 的 SVG 管线导出
 
-产出物落点：**PNG 在外、HTML 进 `源文件/` 子文件夹**。独立出图放当前工作目录（`图名@2x.png` 在外，`源文件/图名.html`）；hb-digital-proposal 报告配图放报告项目的 `figures/` 目录（PNG 在 figures/ 下，HTML 在 `figures/源文件/` 下）。PNG 是给人看和嵌报告的，HTML 是可再导出的源稿，分开放免得交付目录混杂。渲染中间产物（preview 截图）放 scratchpad，不留在交付目录。
+产出物落点：**PNG 在外、HTML 进 `源文件/` 子文件夹**。独立出图放当前工作目录（`图名@2x.png` 在外，`源文件/图名.html`）；huoban-solution-report 报告配图放报告项目的 `figures/` 目录（PNG 在 figures/ 下，HTML 在 `figures/源文件/` 下）。PNG 是给人看和嵌报告的，HTML 是可再导出的源稿，分开放免得交付目录混杂。渲染中间产物（preview 截图）放 scratchpad，不留在交付目录。
 
 ## 硬约束
 
