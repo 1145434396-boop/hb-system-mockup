@@ -554,6 +554,10 @@ body.fullbleed .window { border-radius: 0; box-shadow: none; }
 .page-tabs-list > span { height: 40px; display: inline-flex; align-items: center; font-size: 16px; color: var(--ink-65); }
 .page-tabs-list > .on { color: var(--ink-85); font-weight: 500; box-shadow: inset 0 -2px 0 var(--primary); }
 .page-tabs-body { min-height: 0; }
+/* 页签内直接放字段时，沿用快捷表单实测的字段容器规则（左右 16、行间 12、首行留顶）。
+   缺这条时字段会贴着卡片边缘且行行相连，一排灰色值框糊成一片，看不出「白卡片＋灰值框」的层次。 */
+.page-tabs-body > .field { padding: 0 16px 12px; }
+.page-tabs-body > .field:first-child { padding-top: 12px; }
 .w-sub { border: 1px solid var(--line); border-radius: 9px; padding: 12px 14px; min-height: 220px; }
 .ws-hd { font-weight: 500; display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
 .ws-hd .funnel { margin-left: auto; color: var(--ink-45); }

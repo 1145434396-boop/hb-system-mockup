@@ -98,6 +98,30 @@ PROBE = r"""
         && Math.abs((b.bottom || 0) - (a.bottom || 0)) < 8;
     });
   });
+  // 并排组件底部不齐：同一栅格行里两栏高度差过大，短的那栏下方会空出一块。
+  // 这一项 SKIP 名单管不着——空白不在组件内部，而在组件之间，靠目检容易被“左右等高很整齐”的错觉盖过去。
+  var uneven = [];
+  document.querySelectorAll('.item-page-grid, .value, .pains, .phase').forEach(function (g) {
+    var rows = {};
+    [].forEach.call(g.children, function (c) {
+      var r = c.getBoundingClientRect();
+      if (r.height === 0) return;
+      var k = Math.round(r.top / 5);
+      (rows[k] = rows[k] || []).push({
+        cls: (typeof c.className === 'string' ? c.className : c.tagName.toLowerCase()).slice(0, 40),
+        h: Math.round(r.height), bottom: Math.round(r.bottom)
+      });
+    });
+    Object.keys(rows).forEach(function (k) {
+      var arr = rows[k];
+      if (arr.length < 2) return;
+      arr.sort(function (a, b) { return a.bottom - b.bottom; });
+      var d = arr[arr.length - 1].bottom - arr[0].bottom;
+      if (d > 24) uneven.push({ diff: d, short: arr[0].cls, shortH: arr[0].h,
+                                tall: arr[arr.length - 1].cls, tallH: arr[arr.length - 1].h });
+    });
+  });
+
   var extra = [];
   var win = document.querySelector('.window'), st = document.querySelector('.stage');
   if (win && win.scrollHeight > win.clientHeight + 4)
@@ -110,7 +134,7 @@ PROBE = r"""
       if (fr.top < sr.top - 2) extra.push({ kind: 'float-out', over: Math.round(sr.top - fr.top) });
     });
   }
-  document.title = 'GAPS' + JSON.stringify({ gaps: out, extra: extra });
+  document.title = 'GAPS' + JSON.stringify({ gaps: out, extra: extra, uneven: uneven });
 })();
 </script>
 """
@@ -233,6 +257,11 @@ def check(path, render=True):
             else:
                 add("High", "float-out",
                     f"浮层探出画布 {e['over']}px：会被导出裁掉或压住窗口边缘。调浮层 top 或加高 .stage")
+        for u in (r or {}).get("uneven", []):
+            add("Medium", "column-uneven",
+                f"并排组件底部不齐：.{u['short']} 高 {u['shortH']}，.{u['tall']} 高 {u['tallH']}，"
+                f"相差 {u['diff']}px。短的那栏下方会空出一块，"
+                "给短栏补数据行（分组行、明细行）或调整两栏栅格宽度")
         if gaps:
             for g in gaps:
                 part = []
