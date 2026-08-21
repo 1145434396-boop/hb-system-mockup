@@ -47,7 +47,8 @@
 ### 2x PNG（默认交付物）
 
 ```bash
-"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" \
+# CHROME 取法见 references/chrome-env.md（macOS 用本机 Chrome；Linux 沙箱由 skill 内置分卷自动解压，无需下载）
+"$CHROME" \
   --headless --screenshot=out.png \
   --window-size=<宽>,<高> --force-device-scale-factor=2 \
   --hide-scrollbars "file:///路径/图.html"

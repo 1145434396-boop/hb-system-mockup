@@ -69,7 +69,7 @@ description: 生成伙伴云系统界面示意图（1640 宽 HTML 源文件＋2x
 
 1. `python3 scripts/check.py 图.html`：检查写死色值、自造组件、缺失图标、导出前置，并渲染一遍量空隙（组件之间、组件到画布边缘留大片空白会报 empty-gap；组件内部的留白由数据量决定，不查）。Blocker 必须清零才能继续，empty-gap 逐条处理：补内容或收紧布局
 2. 浏览器渲染核对（高度贴合、无溢出、组件不走样）→ 回填 `.stage` 高度
-3. 出 2x PNG。交付＝HTML 源文件＋PNG；嵌报告场景另按 canvas-spec 的 SVG 管线导出
+3. 出 2x PNG。交付＝HTML 源文件＋PNG；嵌报告场景另按 canvas-spec 的 SVG 管线导出。Chrome 渲染环境已随 skill 内置（assets/chrome/ 分卷），脚本自动探测并在 Linux 沙箱自动解压，无需下载安装；细节见 [references/chrome-env.md](references/chrome-env.md)
 
 产出物落点：**PNG 在外、HTML 进 `源文件/` 子文件夹**。独立出图放当前工作目录（`图名@2x.png` 在外，`源文件/图名.html`）；huoban-solution-report 报告配图放报告项目的 `figures/` 目录（PNG 在 figures/ 下，HTML 在 `figures/源文件/` 下）。PNG 是给人看和嵌报告的，HTML 是可再导出的源稿，分开放免得交付目录混杂。渲染中间产物（preview 截图）放 scratchpad，不留在交付目录。
 

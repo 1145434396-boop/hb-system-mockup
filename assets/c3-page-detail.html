@@ -356,3 +356,26 @@
     <div class="span-24"><!-- 已收录组件 --></div>
   </div>
 </template>
+
+<template data-component="流程页签" data-group="记录详情"
+          data-use="带流程的记录详情右栏（记录详情弹窗 modal-side，或独立自定义详情页的配套流程展示区）：替代 动态feed＋评论框 整段；页签顺序固定 流程/动态/评论、流程在前"
+          data-measured="2026-08-20 app.huoban.com 真实 DOM 实测（hb-flow-message / hb-flowbox-timeline / hb-flowbox）：页签行 流程/动态/评论；头部白块＝圆形应用图标32＋流程名13/500＋发起人·时间12/ink-45＋居中「撤销流程」行32；timeline 浅灰底 pad16、节点卡倒序（白卡 r6、1px rgba(0,0,0,.04) 边、卡间12）；卡＝head32（thumb24 r6＋节点名12/500）＋状态行12（执行中橙/同意绿/驳回红）＋时间行12灰（日期＋⏱耗时）＋可选「催办」links 行；面板底部「查看详细记录」32 居中">
+  <div class="flow-msg">
+    <div class="flow-msg-body">
+      <span class="app-ic"><svg class="ico"><use href="#i-grid-s"/></svg></span>
+      <span><b><!-- 流程名称 --></b><small><!-- 发起人 · 发起时间 --></small></span>
+    </div>
+    <div class="flow-msg-actions">撤销流程</div>
+  </div>
+  <div class="flowbox-timeline">
+    <div class="flowbox">
+      <div class="flowbox-head"><span class="n-ic"><svg class="ico"><use href="#i-f-user"/></svg></span><strong><!-- 节点名称 --></strong></div>
+      <div class="flowbox-body">
+        <div class="st"><!-- 执行人＋状态；同意加 .green、驳回加 .red、未开始加 .gray；启动事件用 .txt --></div>
+        <div class="tm"><span><!-- 日期 --></span><span><svg class="ico"><use href="#i-history"/></svg> <!-- 耗时 --></span></div>
+      </div>
+      <div class="flowbox-links">催办</div> <!-- 仅当前待办节点有 -->
+    </div>
+  </div>
+  <div class="flow-foot">查看详细记录</div>
+</template>

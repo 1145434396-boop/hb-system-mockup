@@ -861,3 +861,35 @@ body.fullbleed .window { border-radius: 0; box-shadow: none; }
   box-shadow: none; overflow: hidden; margin-bottom: 18px;
 }
 .float .accent-ring { outline: 3px solid var(--accent); outline-offset: 2px; border-radius: 8px; }
+
+/* ── 流程页签（记录详情弹窗右栏，2026-08-20 app.huoban.com 真实 DOM 实测）──
+   hb-flow-message：白底、下边线 1px rgba(0,0,0,.08)；body pad 16＝圆形应用图标 32（主色底白图标 18）＋流程名 13/500＋发起人·时间 12/ink-45；
+   actions 行 32 高、居中文字「撤销流程」14/ink-65。
+   hb-flowbox-timeline：浅灰底（page-bg）、pad 16，节点自上而下倒序。
+   hb-flowbox：白卡 r6、border 1px rgba(0,0,0,.04)、卡间 12；head 32 pad 8 12 0（thumb 24 r6 灰底图标＋节点名 12/500 ink-85）；
+   body pad 4 12 12：状态行 12（执行中=orange、同意=green、驳回=red、未开始=ink-45），时间行 12/ink-45（日期＋⏱耗时）；
+   links 行 pad 8 12、上边线 1px rgba(0,0,0,.04)、居中 12px 主色链接（催办）。
+   面板底部「查看详细记录」32 高居中 14/ink-65。 */
+.flow-msg { flex: none; background: var(--card-bg); border-bottom: 1px solid rgba(0,0,0,.08); }
+.flow-msg-body { display: flex; gap: 8px; padding: 16px; align-items: center; }
+.flow-msg .app-ic { width: 32px; height: 32px; border-radius: 50%; background: var(--primary); color: #fff; display: inline-flex; align-items: center; justify-content: center; flex: none; }
+.flow-msg .app-ic .ico { width: 18px; height: 18px; }
+.flow-msg b { display: block; font-size: 13px; font-weight: 500; color: var(--ink-85); line-height: 1.4; }
+.flow-msg small { font-size: 12px; color: var(--ink-45); }
+.flow-msg-actions { height: 32px; display: flex; align-items: center; justify-content: center; font-size: 14px; color: var(--ink-65); }
+.flowbox-timeline { flex: 1; min-height: 0; overflow: hidden; background: var(--page-bg); padding: 16px; }
+.flowbox { background: var(--card-bg); border: 1px solid rgba(0,0,0,.04); border-radius: 6px; margin-bottom: 12px; }
+.flowbox-head { height: 32px; display: flex; align-items: center; gap: 8px; padding: 8px 12px 0; }
+.flowbox-head .n-ic { width: 24px; height: 24px; border-radius: 6px; background: var(--field-bg); color: var(--ink-45); display: inline-flex; align-items: center; justify-content: center; flex: none; }
+.flowbox-head .n-ic .ico { width: 13px; height: 13px; }
+.flowbox-head strong { font-size: 12px; font-weight: 500; color: var(--ink-85); }
+.flowbox-body { padding: 4px 12px 12px; font-size: 12px; }
+.flowbox-body .st { color: var(--c-orange); line-height: 16px; }
+.flowbox-body .st.green { color: var(--c-green); }
+.flowbox-body .st.red { color: var(--c-red); }
+.flowbox-body .st.gray { color: var(--ink-45); }
+.flowbox-body .txt { color: var(--ink-85); line-height: 16px; }
+.flowbox-body .tm { display: flex; gap: 12px; color: var(--ink-45); margin-top: 2px; align-items: center; }
+.flowbox-body .tm .ico { width: 11px; height: 11px; }
+.flowbox-links { padding: 8px 12px; border-top: 1px solid rgba(0,0,0,.04); text-align: center; font-size: 12px; color: var(--primary); }
+.flow-foot { flex: none; height: 32px; display: flex; align-items: center; justify-content: center; font-size: 14px; color: var(--ink-65); border-top: 1px solid var(--line); background: var(--card-bg); }

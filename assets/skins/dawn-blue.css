@@ -1,0 +1,50 @@
+/* 皮肤：晨光蓝。暖橙白晕染到冷蓝白的渐变纸感，深藏青＋活力橙（navy #124C77 / orange #C9720A）。与 huoban-solution-report 同名皮肤同气质，报告配图用它自动同色系。
+   适用：物流调度、救援派单、供应链、生活服务等强调效率活力的客户。
+   慎用：权威严肃、高端精品气质的场景。 */
+:root {
+  --backdrop: #F8F9FB;   /* ＝报告同名皮肤纸色（--paper），嵌报告无缝 */
+  --font: -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", "Microsoft YaHei", sans-serif;
+
+  /* 主色系 */
+  --primary: #124C77;
+  --primary-deep: #0D3A5C;
+  --primary-soft: #E3EEF7;
+  --primary-08: rgba(18, 76, 119, .08);
+
+  /* 中性系 */
+  --page-bg: #F0F3F6;
+  --card-bg: #FFFFFF;
+  --line: #DFE6ED;
+  --field-bg: #F4F7FA;
+  --filter-bg: #F4F7FA;
+  --tag-bg: #EBEFF3;
+  --ink-85: #16334A;
+  --ink-65: #40566B;
+  --ink-45: #74869A;
+  --ink-25: #A8B5C2;
+
+  /* 状态/标签彩底（红绿灯语义，饱和度压低贴报告气质） */
+  --c-blue: #3E6E9E;
+  --c-teal: #3E8FA0;
+  --c-green: #55895E;
+  --c-red: #B04A42;
+  --c-orange: #C9720A;
+  --c-purple: #6E7494;
+  --c-yellow: #B99A3A;
+
+  /* widget 标题带浅色底 */
+  --tint-blue: #E3EEF7;
+  --tint-teal: #E2EEEE;
+  --tint-yellow: #F6EEDC;
+
+  /* 横幅渐变 */
+  --banner-bg: linear-gradient(180deg, #1E639C, #124C77);
+
+  /* 营销浮层强调 */
+  --accent: #C9720A;
+  --accent-bg: #FDF2E2;
+
+  /* 投影 */
+  --shadow-card: 0 8px 24px -12px rgba(22, 51, 74, .14);
+  --shadow-window: 0 40px 90px -30px rgba(28, 37, 48, .30);
+}

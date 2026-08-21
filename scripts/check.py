@@ -53,7 +53,59 @@ def line_of(text, idx):
     return text.count("\n", 0, idx) + 1
 
 
-CHROME = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+def _bootstrap_bundled_chrome():
+    """Linux 下从 skill 内置分卷（assets/chrome/chs_vol_*）解压 chrome-headless-shell 到 ~，
+    成功返回二进制路径。零下载，详见 references/chrome-env.md。"""
+    if not sys.platform.startswith("linux"):
+        return None
+    import pathlib
+    import shutil
+    import zipfile
+    vol_dir = pathlib.Path(__file__).resolve().parents[1] / "assets" / "chrome"
+    dest = pathlib.Path(os.path.expanduser("~/chrome-headless-shell-linux64"))
+    binp = dest / "chrome-headless-shell"
+    vols = sorted(vol_dir.glob("chs_vol_*"))
+    if not vols:
+        return None
+    tmpzip = pathlib.Path(tempfile.mkdtemp()) / "chs.zip"
+    with open(tmpzip, "wb") as w:
+        for v in vols:
+            with open(v, "rb") as r:
+                shutil.copyfileobj(r, w)
+    with zipfile.ZipFile(tmpzip) as z:
+        z.extractall(dest.parent)
+    tmpzip.unlink()
+    for root, _, files in os.walk(dest):
+        for f in files:
+            os.chmod(os.path.join(root, f), 0o755)
+    return str(binp) if binp.exists() else None
+
+
+def find_chrome():
+    """按顺序找可用 Chrome；都没有时自动解压 skill 内置分卷；
+    仍找不到返回 None（渲染类检查自动跳过）。"""
+    import shutil
+    cands = [
+        os.environ.get("CHROME_BIN"),
+        "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
+        "chrome-headless-shell-linux64/chrome-headless-shell",
+        "work/chrome-headless-shell-linux64/chrome-headless-shell",
+        os.path.expanduser("~/chrome-headless-shell-linux64/chrome-headless-shell"),
+    ]
+    for c in cands:
+        if c and os.path.exists(c):
+            return c
+    for name in ("chrome-headless-shell", "google-chrome", "chromium", "chromium-browser"):
+        p = shutil.which(name)
+        if p:
+            return p
+    try:
+        return _bootstrap_bundled_chrome()
+    except Exception:
+        return None
+
+
+CHROME = find_chrome()
 
 # 渲染后量空隙：内容没填满容器时画面上会出现空洞，静态文本看不出来。
 # 注入到图的副本里跑一遍，结果写进 <title>，再用 --dump-dom 取回。
@@ -142,7 +194,7 @@ PROBE = r"""
 
 def measure_gaps(path, text):
     """返回空隙列表；Chrome 不可用或页面没跑起来时返回 None。"""
-    if not os.path.exists(CHROME):
+    if not CHROME:
         return None
     m = re.search(r"\.stage \{ height: (\d+)px", text)
     height = int(m.group(1)) + 96 if m else 1200

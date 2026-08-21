@@ -1,0 +1,50 @@
+/* 皮肤：勃艮第红。近纯白底＋酒红，编辑杂志气质（wine #6D1F2C）。与 huoban-solution-report 同名皮肤同气质，报告配图用它自动同色系。
+   适用：高端消费、酒店餐饮、文化传媒、律所等讲格调的客户。
+   慎用：科技工具型产品；主色与危险红同族，危险色已推亮拉开（#C0453C），审图时留意状态语义仍清晰。 */
+:root {
+  --backdrop: #FAFAF9;   /* ＝报告同名皮肤纸色（--paper），嵌报告无缝 */
+  --font: -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", "Microsoft YaHei", sans-serif;
+
+  /* 主色系 */
+  --primary: #6D1F2C;
+  --primary-deep: #541722;
+  --primary-soft: #F6E7EA;
+  --primary-08: rgba(109, 31, 44, .08);
+
+  /* 中性系 */
+  --page-bg: #F3F2F1;
+  --card-bg: #FFFFFF;
+  --line: #E6E3E1;
+  --field-bg: #F7F6F5;
+  --filter-bg: #F7F6F5;
+  --tag-bg: #EFEDEB;
+  --ink-85: #1E1B1C;
+  --ink-65: #4E4649;
+  --ink-45: #7F787A;
+  --ink-25: #B0A9AB;
+
+  /* 状态/标签彩底（红绿灯语义，饱和度压低贴报告气质） */
+  --c-blue: #4E6E96;
+  --c-teal: #4E8F96;
+  --c-green: #5F8B66;
+  --c-red: #C0453C;
+  --c-orange: #B07A35;
+  --c-purple: #7A6788;
+  --c-yellow: #B99A49;
+
+  /* widget 标题带浅色底 */
+  --tint-blue: #E7EDF3;
+  --tint-teal: #E3EEEC;
+  --tint-yellow: #F5EEDF;
+
+  /* 横幅渐变 */
+  --banner-bg: linear-gradient(180deg, #8A3240, #6D1F2C);
+
+  /* 营销浮层强调 */
+  --accent: #A0763B;
+  --accent-bg: #F5EDE0;
+
+  /* 投影 */
+  --shadow-card: 0 8px 24px -12px rgba(30, 27, 28, .14);
+  --shadow-window: 0 40px 90px -30px rgba(28, 37, 48, .30);
+}

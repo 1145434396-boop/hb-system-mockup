@@ -1,5 +1,9 @@
 # 更新日志
 
+## v0.2.2 — 2026-08-21
+
+- **内置 Chrome 渲染环境（零下载）**：`assets/chrome/` 内置 chrome-headless-shell 152.0.7977.54（Linux x64）分卷 chs_vol_aa/ab（单文件 <100MB），skill 走到哪渲染环境到哪，不依赖资源库。check.py 的 Chrome 路径从写死 macOS 改为自动探测（CHROME_BIN → 本机 Chrome → 已解压目录 → PATH → 内置分卷自动解压到 ~），新增 `references/chrome-env.md` 记录引导顺序与校验和，canvas-spec 导出命令同步改用探测到的路径。huoban-solution-report 的 make_pdf.py 共用本 skill 的分卷
+
 ## v0.2.1 — 2026-08-19
 
 - **新增 Medium `column-uneven` 检查**：量同一栅格行里各栏的底部落差，超过 24px 报警。这块空白落在组件之间，empty-gap 的 SKIP 名单管不着，目检又容易被「左右各自都很整齐」的错觉盖过去

@@ -1,0 +1,50 @@
+/* 皮肤：瑞士克莱因蓝。纯白网格感、单一强调色（klein #002FA7）。与 huoban-solution-report 同名皮肤同气质，报告配图用它自动同色系。
+   适用：咨询/专业服务、金融、设计创意等要冷静高级感的客户。
+   慎用：需要温暖亲和或活泼气质的场景。 */
+:root {
+  --backdrop: #F7F7F8;   /* ＝报告同名皮肤纸色（--paper），嵌报告无缝 */
+  --font: -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", "Microsoft YaHei", sans-serif;
+
+  /* 主色系 */
+  --primary: #002FA7;
+  --primary-deep: #00227A;
+  --primary-soft: #E8EDF9;
+  --primary-08: rgba(0, 47, 167, .08);
+
+  /* 中性系 */
+  --page-bg: #F1F2F4;
+  --card-bg: #FFFFFF;
+  --line: #E3E4E8;
+  --field-bg: #F5F6F8;
+  --filter-bg: #F5F6F8;
+  --tag-bg: #EEEFF2;
+  --ink-85: #17181C;
+  --ink-65: #45474E;
+  --ink-45: #808289;
+  --ink-25: #B0B2B8;
+
+  /* 状态/标签彩底（红绿灯语义，饱和度压低贴报告气质） */
+  --c-blue: #3E5FC2;
+  --c-teal: #3E8CA0;
+  --c-green: #4E8A58;
+  --c-red: #B04A42;
+  --c-orange: #B4690E;
+  --c-purple: #6E6A94;
+  --c-yellow: #B99A3A;
+
+  /* widget 标题带浅色底 */
+  --tint-blue: #E8EDF9;
+  --tint-teal: #E3EFF2;
+  --tint-yellow: #F5EEDC;
+
+  /* 横幅渐变 */
+  --banner-bg: linear-gradient(180deg, #1E4BC8, #002FA7);
+
+  /* 营销浮层强调 */
+  --accent: #B4690E;
+  --accent-bg: #F7EDDE;
+
+  /* 投影 */
+  --shadow-card: 0 8px 24px -12px rgba(23, 24, 28, .14);
+  --shadow-window: 0 40px 90px -30px rgba(28, 37, 48, .30);
+}
