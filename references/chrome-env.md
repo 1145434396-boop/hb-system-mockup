@@ -26,7 +26,7 @@ CHROME=~/chrome-headless-shell-linux64/chrome-headless-shell   # macOS 则用本
   "file://$(pwd)/图.html"
 ```
 
-手动引导一条命令：`bash scripts/get_chrome.sh`（已装即退，按镜像顺序下载＋sha256 校验＋解压 chmod）。等价的裸命令（国内首选 npmmirror；路径必须带完整 `/-/binary/chrome-for-testing/`，裸域名会 302 跳走、速度掉到几 KB/s）：
+手动引导（不走脚本时）等价操作（国内首选 npmmirror；路径必须带完整 `/-/binary/chrome-for-testing/`，裸域名会 302 跳走、速度掉到几 KB/s）：
 
 ```bash
 curl -sL -o /tmp/chs.zip \
