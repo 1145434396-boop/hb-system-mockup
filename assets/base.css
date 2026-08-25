@@ -514,11 +514,71 @@ body.fullbleed .window { border-radius: 0; box-shadow: none; }
 /* ── 十 自定义页面部件 ── */
 .page { padding: 20px 24px; display: flex; flex-direction: column; gap: 20px; background: var(--page-bg); }
 .page > * { flex: none; } /* 部件按内容高度排布，不被压缩重叠 */
-.w-banner {
-  height: 80px; border-radius: 9px; background: var(--banner-bg);
-  display: flex; align-items: center; justify-content: center;
+/* 页面标题区：工作台/看板/数据分析页顶部的「页面名称＋一句话介绍」。
+   一律左对齐；默认无背景，直接坐在页底上。要背景时加一个 bg-* 配方类，配方全部用皮肤 token 取色，不外链图片 */
+.w-banner { padding: 4px 4px 0; }
+.w-banner h1 { font-size: 30px; font-weight: 600; color: var(--ink-85); }
+.w-banner p { margin-top: 8px; font-size: 16px; color: var(--ink-45); line-height: 1.6; }
+.w-banner[class*="bg-"] {
+  min-height: 108px; border-radius: 9px; padding: 26px 32px;
+  display: flex; flex-direction: column; justify-content: center;
 }
-.w-banner h1 { font-size: 22px; font-weight: 500; color: #fff; }
+/* 四套背景配方，每套都是「底色＋看得见的几何元素」：分格网格、同心环、斜纹条带、点阵。
+   禁止只铺纯色或只铺一层渐变。装饰全用 CSS 渐变叠出来，不外链图片；重心一律偏右，不压左边的字 */
+/* 深色背景配方：白字 */
+.w-banner.bg-grid, .w-banner.bg-ring, .w-banner.bg-aurora, .w-banner.bg-mesh { color: #fff; }
+.w-banner.bg-grid h1, .w-banner.bg-ring h1, .w-banner.bg-aurora h1, .w-banner.bg-mesh h1 { color: #fff; }
+.w-banner.bg-grid p, .w-banner.bg-ring p, .w-banner.bg-aurora p, .w-banner.bg-mesh p { color: rgba(255, 255, 255, .82); }
+/* 分格网格：整幅细网格＋右侧提亮的大格块 */
+.w-banner.bg-grid {
+  background:
+    linear-gradient(rgba(255, 255, 255, .16) 1px, transparent 1px) 0 0 / 72px 72px,
+    linear-gradient(90deg, rgba(255, 255, 255, .16) 1px, transparent 1px) 0 0 / 72px 72px,
+    linear-gradient(90deg, transparent 62%, rgba(255, 255, 255, .12) 62% 74%, transparent 74% 82%, rgba(255, 255, 255, .08) 82% 100%),
+    var(--banner-bg);
+}
+/* 同心环：皮肤渐变＋右下角一圈圈环纹 */
+.w-banner.bg-ring {
+  background:
+    repeating-radial-gradient(circle at 88% 130%, rgba(255, 255, 255, .16) 0 2px, transparent 2px 26px),
+    radial-gradient(60% 120% at 100% 0%, rgba(255, 255, 255, .18), transparent 70%),
+    var(--banner-bg);
+}
+/* 深色光晕＋细环线：两团彩光打底，右侧压一组同心细环 */
+.w-banner.bg-aurora {
+  background:
+    repeating-radial-gradient(circle at 82% 46%, rgba(255, 255, 255, .14) 0 1px, transparent 1px 30px),
+    radial-gradient(88% 140% at 86% 6%, rgba(255, 255, 255, .26), transparent 60%),
+    radial-gradient(72% 130% at 6% 104%, var(--c-purple), transparent 62%),
+    radial-gradient(40% 90% at 64% 92%, var(--c-teal), transparent 70%),
+    linear-gradient(112deg, var(--primary-deep), var(--primary));
+}
+/* 斜纹＋右侧点阵 */
+.w-banner.bg-mesh {
+  background:
+    radial-gradient(circle at 1px 1px, rgba(255, 255, 255, .30) 1px, transparent 1.5px) 76% 0 / 16px 16px,
+    repeating-linear-gradient(64deg, rgba(255, 255, 255, .12) 0 1px, transparent 1px 20px),
+    linear-gradient(120deg, var(--primary-deep), var(--c-teal));
+}
+/* 浅色背景配方：深字，用于不想让顶部抢戏的看板。淡晕染＋右侧点阵 */
+.w-banner.bg-soft {
+  background:
+    radial-gradient(circle at 1px 1px, var(--primary-soft) 1px, transparent 1.5px) 78% 0 / 14px 14px,
+    radial-gradient(46% 110% at 96% 10%, var(--primary-08), transparent 70%),
+    linear-gradient(100deg, var(--primary-soft), transparent 68%),
+    var(--card-bg);
+}
+/* 横幅与同行部件（如快捷按钮）：按钮不进横幅内部，横幅让宽、右侧部件按内容宽 */
+.w-row:has(> .w-banner) { align-items: center; }
+.w-row > .w-banner { flex: 1 1 auto; min-width: 0; }
+.w-row > .w-banner + * { flex: 0 0 auto; }
+/* 反色层次：页底改白、组件靠 1px 浅边线立住（不再靠灰底衬托）。给 .page 加 flat 即可整页切换 */
+.page.flat { background: var(--card-bg); }
+.page.flat .w-card, .page.flat .w-filter {
+  border: 1px solid var(--line); box-shadow: none;
+}
+.page.flat .view-box { border-color: var(--line); }
+
 .w-row { display: flex; gap: 20px; }
 .w-row > * { flex: 1; }
 .w-card { background: var(--card-bg); border-radius: 9px; overflow: hidden; }
@@ -893,3 +953,158 @@ body.fullbleed .window { border-radius: 0; box-shadow: none; }
 .flowbox-body .tm .ico { width: 11px; height: 11px; }
 .flowbox-links { padding: 8px 12px; border-top: 1px solid rgba(0,0,0,.04); text-align: center; font-size: 12px; color: var(--primary); }
 .flow-foot { flex: none; height: 32px; display: flex; align-items: center; justify-content: center; font-size: 14px; color: var(--ink-65); border-top: 1px solid var(--line); background: var(--card-bg); }
+
+/* ══════════════════ 手机端（H5 / 企业微信内打开）══════════════════
+   来源说明：该形态未做 DOM 实测采集，是按产品手机端官方截图与实际演示就近仿写的骨架，
+   尺寸与字级沿用产品级别（顶栏 48、页签 46、工具栏 46、字段行 38、主按钮 44），色彩全走皮肤 token。
+   将来拿到真实手机端 DOM 后，以实测值覆盖本节，不要再往上叠补丁。
+   结构见 assets/c4-mobile.html。除 .duo/.conn/.step 外，所有规则都收在 .phone 内，避免与 PC 组件同名冲突。 */
+
+/* 手机壳：默认高度自适应（表单类）；双屏对照或需要内容自然切断时给固定高度 */
+.phone { width: 432px; margin: 0 auto; flex: none; display: flex; flex-direction: column;
+  background: var(--page-bg); border: 1px solid var(--line); border-radius: 34px; overflow: hidden; box-shadow: var(--shadow-window); }
+.phone.h-fix { height: 830px; }
+.duo { display: flex; align-items: center; justify-content: center; }
+.duo .phone { height: 830px; margin: 0; }   /* 清掉单屏的 margin auto，否则在 flex 行里会把两屏推开 */
+
+/* 双屏之间的中缝流程说明 */
+.conn { width: 216px; flex: none; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 22px; padding: 0 8px; text-align: center; }
+.conn .bigarr { color: var(--accent); }
+.conn .bigarr .ico { width: 40px; height: 40px; }
+.step { font-size: 15px; color: var(--ink-85); line-height: 1.75; font-weight: 500; }
+.step b { display: block; color: var(--accent); font-size: 14px; margin-bottom: 3px; }
+
+/* 顶栏（微信/企微内页标题栏） */
+.phone .wxbar { height: 48px; flex: none; background: var(--card-bg); border-bottom: 1px solid var(--line);
+  display: flex; align-items: center; gap: 8px; padding: 0 14px; font-size: 15px; font-weight: 600; color: var(--ink-85); }
+.phone .wxbar .bk { display: inline-flex; color: var(--ink-65); }
+.phone .wxbar .bk .ico { width: 18px; height: 18px; }
+.phone .wxbar .tt { flex: 1; text-align: center; }
+.phone .wxbar .dots { position: static; display: inline; color: var(--ink-45); font-size: 17px; letter-spacing: 3px; }   /* 覆盖轮播圆点的 .dots，别删这两条 */
+
+/* 页签 / 工具栏 / 数据来源说明（列表页三件套） */
+.phone .tabs2 { height: 46px; flex: none; display: flex; gap: 26px; align-items: stretch; background: var(--card-bg); padding: 0 16px; border-bottom: 1px solid var(--line); }
+.phone .tabs2 span { display: inline-flex; align-items: center; font-size: 15px; color: var(--ink-65); }
+.phone .tabs2 .on { color: var(--primary); font-weight: 700; box-shadow: inset 0 -2.5px 0 var(--primary); }
+.phone .tbar { height: 46px; flex: none; display: flex; align-items: center; gap: 20px; background: var(--card-bg); padding: 0 16px; border-bottom: 1px solid var(--line); color: var(--ink-65); }
+.phone .tbar .ico { width: 17px; height: 17px; }
+.phone .tbar .sp { flex: 1; }
+.phone .tbar .plus { color: var(--primary); }
+.phone .pscroll { flex: 1; overflow: hidden; display: flex; flex-direction: column; }
+.phone .srcnote { font-size: 12.5px; color: var(--ink-45); padding: 12px 14px 2px; flex: none; }
+.phone .srcnote b { color: var(--primary); font-weight: 400; }
+
+/* 官方卡片视图：标题＋副标题＋两列字段＋线框胶囊操作按钮（＋可选右侧图片位） */
+.phone .ocard { background: var(--card-bg); border-radius: 10px; margin: 10px 12px 0; padding: 14px; display: flex; gap: 12px; flex: none; }
+.phone .ocard .obody { flex: 1; min-width: 0; }
+.phone .ocard .ot { font-size: 15.5px; font-weight: 700; color: var(--ink-85); }
+.phone .ocard .os { font-size: 12.5px; color: var(--ink-45); margin-top: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.phone .ocard .ofr { display: flex; margin-top: 12px; }
+.phone .ocard .ofi { flex: 1; min-width: 0; }
+.phone .ocard .ofi + .ofi { border-left: 1px solid var(--line); padding-left: 14px; }
+.phone .ocard .ofl { font-size: 12px; color: var(--ink-45); margin-bottom: 6px; }
+.phone .ocard .ofv { font-size: 14px; color: var(--ink-85); font-weight: 600; }
+.phone .ocard .obtn { margin-top: 12px; display: inline-flex; align-items: center; gap: 6px; height: 30px; padding: 0 14px;
+  border: 1.5px solid var(--primary); border-radius: 100px; color: var(--primary); font-size: 13px; font-weight: 600; }
+.phone .ocard .obtn .ico { width: 13px; height: 13px; }
+.phone .ocard .oimg { width: 84px; height: 84px; border-radius: 8px; background: var(--field-bg); display: flex; align-items: center; justify-content: center; flex: none; color: var(--ink-25); }
+.phone .ocard .oimg .ico { width: 30px; height: 30px; }
+.phone .ocard .oimg svg { width: 72px; height: 72px; }
+.phone .ocard .oimg img { width: 84px; height: 84px; object-fit: cover; border-radius: 8px; display: block; }
+
+/* 表单卡片：字段行上下堆叠，一屏一组，是 PC 标准表单在手机上的形态 */
+.phone .pbody { padding: 12px 12px 16px; display: flex; flex-direction: column; gap: 12px; }
+.phone .fcard { background: var(--card-bg); border: 1px solid var(--line); border-radius: 10px; padding: 2px 14px; }
+.phone .mf { padding: 10px 0 12px; border-top: 1px solid var(--line); }
+.phone .mf:first-child { border-top: none; }
+.phone .mf .fl { font-size: 12.5px; color: var(--ink-45); }
+.phone .mf .fv2 { margin-top: 6px; min-height: 38px; border: 1px solid var(--line); border-radius: 6px; background: var(--card-bg);
+  display: flex; align-items: center; padding: 0 10px; font-size: 14px; color: var(--ink-85); gap: 8px; }
+.phone .mf .fv2.ro { background: var(--field-bg); color: var(--ink-65); }   /* 只读态：关联带出、自动结出 */
+.phone .mf .fv2 .dd { margin-left: auto; color: var(--ink-45); font-size: 10px; }
+.phone .mf .fv2 .hl { color: var(--primary); font-weight: 700; }
+.phone .mf .fv2 .rmk { margin-left: auto; font-size: 12px; color: var(--ink-45); font-weight: 400; }
+.phone .up2 { display: flex; gap: 12px; margin-top: 8px; }
+.phone .upbox { width: 100px; height: 100px; border-radius: 8px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 7px; font-size: 11.5px; text-align: center; }
+.phone .upbox .ico { width: 22px; height: 22px; }
+.phone .upbox.done { background: var(--primary-soft); color: var(--primary); border: 1px solid var(--line); }
+.phone .upbox.todo { border: 1.5px dashed var(--ink-25); color: var(--ink-45); background: var(--field-bg); }
+
+/* 表单底部：主按钮＋提交后果说明 */
+.phone .pbtn { height: 44px; flex: none; border-radius: 8px; background: var(--primary); color: #fff; font-size: 15px; font-weight: 600;
+  display: flex; align-items: center; justify-content: center; gap: 7px; }
+.phone .pbtn .ico { width: 16px; height: 16px; }
+.phone .hint { font-size: 12px; color: var(--ink-45); text-align: center; }
+
+/* 审批流程条（手机上代替 PC 的流程页签） */
+.phone .apv { background: var(--card-bg); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; }
+.phone .apv-h { font-size: 12.5px; color: var(--ink-45); margin-bottom: 8px; }
+.phone .apv-r { display: flex; align-items: center; gap: 9px; padding: 6px 0; font-size: 13.5px; color: var(--ink-85); }
+.phone .apv-d { width: 8px; height: 8px; border-radius: 50%; flex: none; }
+.phone .apv-d.done { background: var(--c-green); }
+.phone .apv-d.cur { background: var(--c-orange); }
+.phone .apv-n { flex: 1; min-width: 0; }
+.phone .apv-t { font-size: 12px; color: var(--ink-45); flex: none; }
+
+/* 会话流：企业微信待办推送 / 公众号图文消息 */
+.phone .chat { flex: 1; padding: 16px 14px; display: flex; flex-direction: column; gap: 14px; overflow: hidden; }
+.phone .mtime { align-self: center; font-size: 11px; color: var(--ink-25); }
+.phone .msg { max-width: 88%; background: var(--card-bg); border-radius: 10px; padding: 13px 14px; }
+.phone .msg .mtag { display: inline-block; font-size: 11px; color: var(--primary); background: var(--primary-soft); border-radius: 4px; padding: 2px 7px; margin-bottom: 7px; }
+.phone .msg .mt2 { font-weight: 700; font-size: 14.5px; color: var(--ink-85); }
+.phone .msg .md2 { font-size: 12.5px; color: var(--ink-45); margin-top: 6px; line-height: 1.7; }
+.phone .msg .kv { display: flex; font-size: 12.5px; color: var(--ink-65); margin-top: 5px; gap: 6px; }
+.phone .msg .kv span:first-child { color: var(--ink-45); flex: none; width: 60px; }
+.phone .msg .ml { margin-top: 10px; padding-top: 9px; border-top: 1px solid var(--line); font-size: 12.5px; color: var(--primary);
+  display: flex; justify-content: space-between; align-items: center; }
+
+/* 公众号底部菜单栏（仅公众号会话形态用，企业微信会话没有这一条） */
+.phone .wmenu { height: 50px; flex: none; background: var(--card-bg); border-top: 1px solid var(--line); display: flex; align-items: stretch; }
+.phone .wmenu .kb { width: 46px; display: flex; align-items: center; justify-content: center; color: var(--ink-45); border-right: 1px solid var(--line); }
+.phone .wmenu .kb .ico { width: 18px; height: 18px; }
+.phone .wmenu .mi { flex: 1; display: flex; align-items: center; justify-content: center; gap: 4px; font-size: 14px; color: var(--ink-65); border-right: 1px solid var(--line); position: relative; }
+.phone .wmenu .mi:last-child { border-right: none; }
+.phone .wmenu .mi.hot { color: var(--primary); font-weight: 700; }
+.phone .tapdot { position: absolute; top: 4px; right: 10px; width: 18px; height: 18px; border-radius: 50%; background: var(--c-orange); color: #fff; font-size: 11px; display: flex; align-items: center; justify-content: center; font-weight: 700; }
+
+/* 首页/门户型手机页：横幅卡、分节标题、缩略图行卡 */
+.phone .hcard { background: var(--banner-bg); border-radius: 10px; padding: 14px 16px; color: #fff; }
+.phone .hcard .st { font-size: 12px; opacity: .72; }
+.phone .hcard .nm { font-size: 17px; font-weight: 700; margin-top: 3px; }
+.phone .hcard .sub { font-size: 12px; opacity: .85; margin-top: 6px; }
+.phone .sec { font-size: 13px; color: var(--ink-45); display: flex; justify-content: space-between; align-items: center; padding: 0 2px; }
+.phone .mcard { background: var(--card-bg); border: 1px solid var(--line); border-radius: 10px; padding: 12px; display: flex; gap: 12px; align-items: center; }
+.phone .mcard.off { opacity: .55; }
+.phone .mthumb { width: 52px; height: 52px; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex: none; }
+.phone .mthumb .ico { width: 24px; height: 24px; }
+.phone .minfo { flex: 1; min-width: 0; }
+.phone .minfo b { font-size: 14.5px; color: var(--ink-85); display: block; }
+.phone .minfo .sp { font-size: 12px; color: var(--ink-45); margin-top: 3px; }
+.phone .mnum { text-align: right; flex: none; }
+.phone .mnum .stk { font-size: 13.5px; font-weight: 700; color: var(--ink-85); }
+.phone .mnum .awd { font-size: 12px; color: var(--c-orange); margin-top: 4px; font-weight: 600; }
+
+/* 手机端统计卡与明细/榜单列表 */
+.phone .stats2 { display: flex; gap: 12px; }
+.phone .scard { flex: 1; background: var(--card-bg); border: 1px solid var(--line); border-radius: 10px; padding: 14px; }
+.phone .scard .lb { font-size: 12px; color: var(--ink-45); }
+.phone .scard .vv { font-size: 24px; font-weight: 700; color: var(--ink-85); margin-top: 4px; font-variant-numeric: tabular-nums; }
+.phone .scard .vv small { font-size: 13px; font-weight: 400; color: var(--ink-45); }
+.phone .scard.gold .vv { color: var(--c-orange); }
+.phone .lcard { background: var(--card-bg); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+.phone .lrow { display: flex; align-items: center; padding: 10px 14px; border-top: 1px solid var(--line); font-size: 13.5px; color: var(--ink-65); gap: 10px; }
+.phone .lrow:first-child { border-top: none; }
+.phone .lrow.lhead { background: var(--field-bg); color: var(--ink-45); font-size: 12px; padding: 8px 14px; }
+.phone .lrow.sum { font-weight: 700; color: var(--ink-85); background: var(--field-bg); }
+.phone .lrow.merow { background: var(--primary-08); }        /* 当前用户所在行 */
+.phone .lrow .c1 { flex: 1; min-width: 0; }
+.phone .lrow .c2 { width: 44px; text-align: right; flex: none; }
+.phone .lrow .c3 { width: 64px; text-align: right; flex: none; }
+.phone .lrow .c4 { width: 72px; text-align: right; flex: none; font-variant-numeric: tabular-nums; }
+.phone .lrow .nm2 { font-weight: 600; color: var(--ink-85); font-size: 13.5px; }
+.phone .lrow .st2 { font-size: 11.5px; color: var(--ink-45); margin-top: 1px; }
+.phone .rk { width: 24px; height: 24px; border-radius: 50%; background: var(--tag-bg); color: var(--ink-65); font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex: none; }
+.phone .rk.g1 { background: var(--c-orange); color: #fff; }
+.phone .rk.g2, .phone .rk.g3 { background: color-mix(in srgb, var(--c-orange) 18%, transparent); color: var(--c-orange); }
+.phone .amt { font-weight: 700; color: var(--ink-85); font-variant-numeric: tabular-nums; }
+.phone .amt.top { color: var(--c-orange); }

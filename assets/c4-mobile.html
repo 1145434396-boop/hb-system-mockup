@@ -1,0 +1,214 @@
+<!--
+伙伴云界面示意图 · 结构 4：手机端（H5 / 企业微信内打开）
+
+⚠ 来源与可信度：本文件的结构**不是 DOM 实测采集**，是按产品手机端官方截图与实际演示就近仿写的骨架，
+   拿到真实手机端 DOM 后以实测值覆盖本文件与 base.css 的手机端一节，不要往上叠补丁。
+   PC 端的 c1～c3 仍是实测真相源，两者不要混着改。
+
+本文件是架构与组件目录，不含业务示例：
+1. data-architecture 表示整屏形态；data-component 表示可重复组件。
+2. 组件槽位中的注释说明内容类型，不是默认文案。
+3. 尺寸、颜色与状态外观由 base.css 的「手机端」一节和 skins/*.css 提供；
+   除 .duo/.conn/.step 外所有类都收在 .phone 作用域内，与 PC 组件同名不冲突。
+4. 手机图不套 PC 产品壳（不要 .window / 左侧导航 / 一级顶栏），手机壳本身就是画布内容。
+5. .stage 宽度按屏数在本图补充样式里给：单屏 520，双屏 1100；高度按内容实测回填。
+   手机竖图嵌进报告时要限宽居中（约 360px），否则会被版心拉得巨大。
+-->
+
+<!-- ══════════ 一、整屏架构 ══════════ -->
+
+<template data-architecture="手机单屏"
+          data-measured="壳 432 宽、圆角 34、1px 边、page-bg 底；高度自适应内容。顶栏 48 高白底下边线；内容区 padding 12">
+  <div class="stage"><!-- 本图补充样式里 .stage{width:520px} -->
+    <div class="phone">
+      <!-- 组件：手机顶栏 -->
+      <div class="pbody">
+        <!-- 内容组件按需堆叠：表单卡片 / 统计卡 / 明细列表 / 主按钮 -->
+      </div>
+    </div>
+  </div>
+</template>
+
+<template data-architecture="手机双屏对照" data-use="讲「从哪来 → 到哪去」的两步流程时用；单纯展示一个页面不要凑两屏"
+          data-measured="两个 432 宽手机固定高 830，中缝 216 宽放流程说明；.duo 横向居中对齐"
+          data-note="内容比 830 高时，末条记录被壳底边自然切断是对的（真实截图就这样）；但不要切在字的中腰，调条数或壳高让它切在行间">
+  <div class="stage"><!-- 本图补充样式里 .stage{width:1100px} -->
+    <div class="duo">
+      <div class="phone"><!-- 左屏：来源页，如会话待办、公众号消息 --></div>
+      <div class="conn">
+        <div class="step"><b><!-- 步骤标题 --></b><!-- 一句说明 --></div>
+        <div class="bigarr"><svg class="ico"><use href="#i-arrow-right"/></svg></div>
+        <div class="step"><b><!-- 步骤标题 --></b><!-- 一句说明 --></div>
+      </div>
+      <div class="phone"><!-- 右屏：目标页，如卡片列表、表单 --></div>
+    </div>
+  </div>
+</template>
+
+<!-- ══════════ 二、壳内通用组件 ══════════ -->
+
+<template data-component="手机顶栏" data-group="手机端"
+          data-measured="48 高、白底、下边线；返回箭头 18＋居中标题 15/600＋右侧三点">
+  <div class="wxbar">
+    <span class="bk"><svg class="ico"><use href="#i-prev"/></svg></span>
+    <span class="tt"><!-- 页面名或企业名·应用名 --></span>
+    <span class="dots">···</span>
+  </div>
+</template>
+
+<template data-component="手机视图页签＋工具栏" data-group="手机端"
+          data-measured="页签行 46 高、gap 26、选中项主色 700＋2.5px 下划线；工具栏 46 高、图标 17、gap 20，右侧新建为主色加号"
+          data-note="工具栏图标按该页真实可用的能力放，不要凑满；扫码等能力没确认就不要画">
+  <div class="tabs2">
+    <span class="on"><!-- 当前视图 --></span>
+    <span><!-- 其他视图 --></span>
+  </div>
+  <div class="tbar">
+    <svg class="ico"><use href="#i-group"/></svg>
+    <svg class="ico"><use href="#i-filter"/></svg>
+    <svg class="ico"><use href="#i-sort"/></svg>
+    <span class="sp"></span>
+    <svg class="ico"><use href="#i-table"/></svg>
+    <svg class="ico"><use href="#i-search"/></svg>
+    <svg class="ico plus"><use href="#i-plus"/></svg>
+  </div>
+  <div class="pscroll">
+    <div class="srcnote">来自 <b><!-- 表名 --></b> 的数据<!-- 可接一句范围说明 --></div>
+    <!-- 组件：手机卡片视图，按需重复 -->
+  </div>
+</template>
+
+<template data-component="手机卡片视图" data-group="手机端"
+          data-measured="卡片白底 r10、margin 10 12 0、pad 14；标题 15.5/700，副标题 12.5/ink-45 单行省略；字段两列等分、第二列左边线＋14 内距；操作按钮线框胶囊 30 高、1.5px 主色描边"
+          data-note="右侧 84 见方图片位可选，只有真有产品图/照片时才放；没有实物图的业务（单据、客户）不要放灰色图标占位">
+  <div class="ocard">
+    <div class="obody">
+      <div class="ot"><!-- 主标题：一般是「主体名｜编号」 --></div>
+      <div class="os"><!-- 副标题：归属、日期、金额等一行摘要 --></div>
+      <div class="ofr">
+        <div class="ofi"><div class="ofl"><!-- 字段名 --></div><div class="ofv"><!-- 值，可放 .tag 状态标签 --></div></div>
+        <div class="ofi"><div class="ofl"><!-- 字段名 --></div><div class="ofv"><!-- 值 --></div></div>
+      </div>
+      <div class="obtn"><svg class="ico"><use href="#i-edit"/></svg><!-- 快捷操作名 --></div>
+    </div>
+    <div class="oimg"><!-- 可选：产品图或线稿 svg --></div>
+  </div>
+</template>
+
+<template data-component="手机表单卡片" data-group="手机端"
+          data-use="PC 标准表单在手机上的形态：字段上下堆叠，一屏填一组"
+          data-measured="卡片白底 r10、pad 2 14；字段行上下 10/12、行间 1px 分隔；标签 12.5/ink-45；输入框 38 高 r6 1px 边；必填星号用 <i class=&quot;req&quot;>*</i>"
+          data-note="只读态（关联带出、自动结出）加 .ro 走 field-bg 灰底；自动算出来的关键数用 .hl 主色加粗，右侧可挂 .rmk 小字注释">
+  <div class="fcard">
+    <div class="mf">
+      <div class="fl"><!-- 字段名 --> <i class="req">*</i></div>
+      <div class="fv2">
+        <svg class="ico"><use href="#i-f-relation"/></svg><!-- 可选：字段类型图标 -->
+        <!-- 值 -->
+        <span class="dd">▾</span><!-- 可选：下拉/选择类字段 -->
+      </div>
+    </div>
+    <div class="mf">
+      <div class="fl"><!-- 只读字段名 --></div>
+      <div class="fv2 ro"><b class="hl"><!-- 自动结出的关键数 --></b><span class="rmk"><!-- 附注 --></span></div>
+    </div>
+    <div class="mf">
+      <div class="fl"><!-- 附件/图片字段名 --></div>
+      <div class="up2">
+        <div class="upbox done"><svg class="ico"><use href="#i-check"/></svg><!-- 已上传项 --></div>
+        <div class="upbox todo"><svg class="ico"><use href="#i-f-image"/></svg><!-- 待上传项 --></div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<template data-component="手机审批流程条" data-group="手机端"
+          data-use="手机上代替 PC 详情弹窗右栏的「流程」页签，放在表单卡片下方"
+          data-measured="白卡 r10 pad 12 14；小标题 12.5/ink-45；节点行 13.5，状态点 8 见方（已办 green、当前 orange、未开始 ink-25），右侧时间 12/ink-45">
+  <div class="apv">
+    <div class="apv-h">审批流程</div>
+    <div class="apv-r"><span class="apv-d done"></span><span class="apv-n"><!-- 已完成节点 --></span><span class="apv-t"><!-- 时间 --></span></div>
+    <div class="apv-r"><span class="apv-d cur"></span><span class="apv-n"><!-- 当前节点 --></span><span class="apv-t">待处理</span></div>
+  </div>
+</template>
+
+<template data-component="手机主按钮＋提交说明" data-group="手机端"
+          data-measured="主按钮 44 高 r8 主色实底、15/600；下方说明 12/ink-45 居中"
+          data-note="说明写「提交后会发生什么」的业务后果，不写操作提示">
+  <div class="pbtn"><svg class="ico"><use href="#i-check"/></svg><!-- 按钮名 --></div>
+  <div class="hint"><!-- 提交后的业务后果 --></div>
+</template>
+
+<!-- ══════════ 三、会话形态（企业微信 / 公众号）══════════ -->
+
+<template data-component="企业微信待办会话" data-group="手机端"
+          data-use="讲「消息推送到企微，点进去就能办」时用作双屏的左屏"
+          data-measured="会话区 flex:1、pad 16 14、消息间 14；气泡最大宽 88%、白底 r10 pad 13 14；时间戳居中 11/ink-25"
+          data-note="企业微信会话没有底部菜单栏，不要加 .wmenu；那是公众号形态">
+  <div class="chat">
+    <div class="mtime"><!-- 今天 09:21 --></div>
+    <div class="msg">
+      <div class="mtag"><!-- 待办类型 · 待办 --></div>
+      <div class="mt2"><!-- 一句话说清是谁的什么事 --></div>
+      <div class="kv"><span><!-- 字段名 --></span><!-- 值 --></div>
+      <div class="kv"><span><!-- 字段名 --></span><!-- 值 --></div>
+      <div class="ml"><span><!-- 去确认 / 去审批 --></span><svg class="ico"><use href="#i-next"/></svg></div>
+    </div>
+  </div>
+</template>
+
+<template data-component="公众号图文会话＋底部菜单" data-group="手机端"
+          data-use="讲「客户/外部人员从公众号进门户」时用"
+          data-measured="菜单栏 50 高、左侧键盘键 46 宽、菜单项等分带分隔线；当前项主色 700，角标 18 见方橙底白字">
+  <div class="chat">
+    <div class="mtime"><!-- 时间戳 --></div>
+    <div class="msg">
+      <div class="mt2"><!-- 图文标题 --></div>
+      <div class="md2"><!-- 摘要两行 --></div>
+      <div class="ml"><span><!-- 查看明细 --></span><svg class="ico"><use href="#i-next"/></svg></div>
+    </div>
+  </div>
+  <div class="wmenu">
+    <span class="kb"><svg class="ico"><use href="#i-menu"/></svg></span>
+    <span class="mi hot"><!-- 当前菜单项 --><span class="tapdot">①</span></span>
+    <span class="mi"><!-- 菜单项 --></span>
+    <span class="mi"><!-- 菜单项 --></span>
+  </div>
+</template>
+
+<!-- ══════════ 四、首页与数据展示形态 ══════════ -->
+
+<template data-component="手机门户首页" data-group="手机端"
+          data-measured="横幅卡走 banner-bg 深底白字 r10 pad 14 16；分节标题 13/ink-45 两端对齐；行卡 52 见方缩略图＋信息区＋右侧数值">
+  <div class="pbody">
+    <div class="hcard">
+      <div class="st"><!-- 身份/归属小字 --></div>
+      <div class="nm"><!-- 主标题 --></div>
+      <div class="sub"><!-- 一句补充 --></div>
+    </div>
+    <div class="sec"><span><!-- 分节名 --></span><span><!-- 右侧更多 --></span></div>
+    <div class="mcard">
+      <div class="mthumb"><svg class="ico"><use href="#i-box-s"/></svg></div>
+      <div class="minfo"><b><!-- 名称 --></b><div class="sp"><!-- 副信息 --></div></div>
+      <div class="mnum"><div class="stk"><!-- 主数值 --></div><div class="awd"><!-- 强调数值 --></div></div>
+    </div>
+  </div>
+</template>
+
+<template data-component="手机统计卡与明细列表" data-group="手机端"
+          data-measured="统计卡等分 flex、白卡 pad 14，数值 24/700 等宽数字；列表白卡 r10，行 10 14、表头走 field-bg，合计行加粗灰底；排名圆点 24 见方，第一名橙底白字"
+          data-note="当前用户所在行加 .merow 走 primary-08 底，榜单类图才用">
+  <div class="stats2">
+    <div class="scard"><div class="lb"><!-- 指标名 --></div><div class="vv"><!-- 数值 --><small><!-- 单位 --></small></div></div>
+    <div class="scard gold"><div class="lb"><!-- 指标名 --></div><div class="vv"><!-- 数值 --></div></div>
+  </div>
+  <div class="lcard">
+    <div class="lrow lhead"><span class="c1"><!-- 列名 --></span><span class="c2"><!-- 列名 --></span><span class="c4"><!-- 列名 --></span></div>
+    <div class="lrow">
+      <span class="rk g1"><!-- 名次 --></span>
+      <span class="c1"><div class="nm2"><!-- 主体名 --></div><div class="st2"><!-- 副信息 --></div></span>
+      <span class="c4 amt"><!-- 金额 --></span>
+    </div>
+    <div class="lrow sum"><span class="c1">合计</span><span class="c4 amt"><!-- 合计值 --></span></div>
+  </div>
+</template>

@@ -56,11 +56,25 @@
 
 <!-- ══════════ 十、工作台 / 数据分析页架构 ══════════ -->
 <template data-architecture="工作台或数据分析页">
-  <div class="page"><!-- 按需求插入独立组件；无默认组件、无默认顺序 --></div>
+  <div class="page flat">
+  <!-- 层次二选一：加 flat＝页底白＋组件描边（默认），不加＝页底浅灰＋组件纯白浮起。见 SKILL.md 硬约束 -->
+    <!-- 首位固定是横幅部件（页面名称＋一句话介绍），其后按需求插入独立组件；其余部件无默认顺序 -->
+  </div>
 </template>
 
-<template data-component="横幅部件" data-group="工作台">
-  <div class="w-banner"><h1><!-- 页面标题 --></h1></div>
+<template data-component="横幅部件" data-group="工作台" data-measured="工作台/看板/数据分析页顶部的介绍：页面名称＋一句话介绍，一律左对齐（禁止居中）；默认无背景直接坐在页底上，要背景时给外层加一个 bg-* 配方类（bg-grid 分格网格／bg-ring 同心环／bg-aurora 光晕＋环线／bg-mesh 斜纹＋点阵／bg-soft 浅底点阵），五套都是底色＋看得见的几何元素，禁止只铺纯色或单层渐变；配方在 base.css 里用皮肤 token 取色，不外链图片；按钮不放横幅内部，横幅宽度可缩，与右侧的快捷按钮部件同行排">
+  <div class="w-banner">
+    <h1><!-- 页面名称 --></h1>
+    <p><!-- 一句话介绍：系统定位描述，学产品官方横幅口吻，说清这页管什么给谁用 --></p>
+  </div>
+</template>
+
+<!-- 顶部介绍带操作按钮时的排法：横幅让宽，按钮走同行右侧的快捷按钮部件（横排），不塞进横幅里 -->
+<template data-architecture="横幅带操作按钮">
+  <div class="w-row">
+    <div class="w-banner"><h1><!-- 页面名称 --></h1><p><!-- 一句话介绍 --></p></div>
+    <div class="w-card shortcut-widget"><!-- 快捷按钮，见「快捷按钮」组件 --></div>
+  </div>
 </template>
 
 <template data-component="筛选部件" data-group="页面部件" data-measured="独立部件白卡：白底圆角9、高40、右缘可带日历/下拉图标；不与页底融合（2026-08-10 实测）">
