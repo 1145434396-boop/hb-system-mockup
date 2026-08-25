@@ -12,7 +12,10 @@ skill 本体不带 Chrome。渲染用的 chrome-headless-shell（Chrome for Test
 2. macOS 本机 Chrome：`/Applications/Google Chrome.app/Contents/MacOS/Google Chrome`
 3. 已解压的 chrome-headless-shell：`./chrome-headless-shell-linux64/`、`./work/…`、`~/chrome-headless-shell-linux64/`
 4. PATH 里的 `chrome-headless-shell` / `google-chrome` / `chromium` / `chromium-browser`
-5. **官方 CDN 自动下载**（仅 Linux）
+5. **自动下载**（仅 Linux，按序尝试三个源，脚本里 `CHS_URLS`）：
+   1. npmmirror 镜像 `registry.npmmirror.com/-/binary/chrome-for-testing/…`（国内首选）
+   2. 阿里云 npmmirror 备用 `cdn.npmmirror.com/binaries/chrome-for-testing/…`
+   3. Google 官方 `storage.googleapis.com/chrome-for-testing-public/…`（仅兜底，国内对 googleapis 明显限速）
 
 PNG 导出时同样用探测到的这个二进制：
 
@@ -23,11 +26,11 @@ CHROME=~/chrome-headless-shell-linux64/chrome-headless-shell   # macOS 则用本
   "file://$(pwd)/图.html"
 ```
 
-手动引导（不走脚本时）等价操作：
+手动引导一条命令：`bash scripts/get_chrome.sh`（已装即退，按镜像顺序下载＋sha256 校验＋解压 chmod）。等价的裸命令（国内首选 npmmirror；路径必须带完整 `/-/binary/chrome-for-testing/`，裸域名会 302 跳走、速度掉到几 KB/s）：
 
 ```bash
 curl -sL -o /tmp/chs.zip \
-  https://storage.googleapis.com/chrome-for-testing-public/152.0.7977.54/linux64/chrome-headless-shell-linux64.zip
+  "https://registry.npmmirror.com/-/binary/chrome-for-testing/152.0.7977.54/linux64/chrome-headless-shell-linux64.zip"
 unzip -q -o /tmp/chs.zip -d ~
 chmod +x ~/chrome-headless-shell-linux64/chrome-headless-shell
 ~/chrome-headless-shell-linux64/chrome-headless-shell --version
@@ -37,6 +40,6 @@ chmod +x ~/chrome-headless-shell-linux64/chrome-headless-shell
 ## 注意
 
 - 运行时若报 dbus 相关 ERROR 属正常（无头环境无 dbus），不影响渲染结果。
-- 版本固定为 152.0.7977.54，无需每次查最新版；升级时改脚本里的 `CHS_URL` 版本号即可。
+- 版本固定为 152.0.7977.54，无需每次查最新版；升级时改脚本里的 `CHS_PATH` 版本号即可（三个镜像路径同版同名）。
 - zip 完整性校验：`shasum -a 256 /tmp/chs.zip` 应为
   `11cedb5568cd374a76eb738e40bd434cd0c9956820fb406b8bd9edca53428d3e`。

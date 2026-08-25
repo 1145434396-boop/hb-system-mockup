@@ -53,12 +53,17 @@ def line_of(text, idx):
     return text.count("\n", 0, idx) + 1
 
 
-CHS_URL = ("https://storage.googleapis.com/chrome-for-testing-public/"
-           "152.0.7977.54/linux64/chrome-headless-shell-linux64.zip")
+# 国内环境 npmmirror 镜像比 Google CDN 快，按序尝试，最后官方兜底
+CHS_PATH = "152.0.7977.54/linux64/chrome-headless-shell-linux64.zip"
+CHS_URLS = (
+    "https://registry.npmmirror.com/-/binary/chrome-for-testing/" + CHS_PATH,
+    "https://cdn.npmmirror.com/binaries/chrome-for-testing/" + CHS_PATH,
+    "https://storage.googleapis.com/chrome-for-testing-public/" + CHS_PATH,
+)
 
 
 def _download_chrome():
-    """Linux 下从官方 CDN 下载 chrome-headless-shell 到 ~（约 120MB，会话内缓存复用），
+    """Linux 下按 CHS_URLS 顺序下载 chrome-headless-shell 到 ~（约 120MB，会话内缓存复用），
     成功返回二进制路径。详见 references/chrome-env.md。"""
     if not sys.platform.startswith("linux"):
         return None
@@ -68,7 +73,14 @@ def _download_chrome():
     dest = pathlib.Path(os.path.expanduser("~/chrome-headless-shell-linux64"))
     binp = dest / "chrome-headless-shell"
     tmpzip = pathlib.Path(tempfile.mkdtemp()) / "chs.zip"
-    urllib.request.urlretrieve(CHS_URL, tmpzip)
+    for url in CHS_URLS:
+        try:
+            urllib.request.urlretrieve(url, tmpzip)
+            break
+        except Exception:
+            continue
+    else:
+        return None
     with zipfile.ZipFile(tmpzip) as z:
         z.extractall(dest.parent)
     tmpzip.unlink()
