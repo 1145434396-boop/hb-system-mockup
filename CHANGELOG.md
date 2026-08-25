@@ -1,5 +1,9 @@
 # 更新日志
 
+## v0.3.3 — 2026-08-25
+
+- **移除内置 Chrome 分卷**（assets/chrome/，114MB）：skill 本体从 229MB 减到约 1MB。Linux 沙箱改为按需下载：`check.py` 探测不到本机 Chrome 时，从官方 CDN 下载 chrome-headless-shell 152.0.7977.54 并缓存到 `~/chrome-headless-shell-linux64/`，同一会话复用；macOS 仍走本机 Chrome，行为不变。huoban-solution-report 的 `make_pdf.py` 同步改为按需下载
+
 ## v0.3.2 — 2026-08-25
 
 - **SKILL.md 体检**（按 writing-for-agents）：description 收敛同义触发词、去正文身份重复、补「手机端」触发分支；开头「c1～c3 三份」的过时表述改为四份；bg-* 配方名录收归 c3 横幅部件注释单一真相源，SKILL.md 只留指针；原第 7 步与硬约束的「标题卡片不放按钮」双写删去步骤侧；硬约束末条补 c4

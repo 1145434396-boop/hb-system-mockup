@@ -53,25 +53,22 @@ def line_of(text, idx):
     return text.count("\n", 0, idx) + 1
 
 
-def _bootstrap_bundled_chrome():
-    """Linux 下从 skill 内置分卷（assets/chrome/chs_vol_*）解压 chrome-headless-shell 到 ~，
-    成功返回二进制路径。零下载，详见 references/chrome-env.md。"""
+CHS_URL = ("https://storage.googleapis.com/chrome-for-testing-public/"
+           "152.0.7977.54/linux64/chrome-headless-shell-linux64.zip")
+
+
+def _download_chrome():
+    """Linux 下从官方 CDN 下载 chrome-headless-shell 到 ~（约 120MB，会话内缓存复用），
+    成功返回二进制路径。详见 references/chrome-env.md。"""
     if not sys.platform.startswith("linux"):
         return None
     import pathlib
-    import shutil
+    import urllib.request
     import zipfile
-    vol_dir = pathlib.Path(__file__).resolve().parents[1] / "assets" / "chrome"
     dest = pathlib.Path(os.path.expanduser("~/chrome-headless-shell-linux64"))
     binp = dest / "chrome-headless-shell"
-    vols = sorted(vol_dir.glob("chs_vol_*"))
-    if not vols:
-        return None
     tmpzip = pathlib.Path(tempfile.mkdtemp()) / "chs.zip"
-    with open(tmpzip, "wb") as w:
-        for v in vols:
-            with open(v, "rb") as r:
-                shutil.copyfileobj(r, w)
+    urllib.request.urlretrieve(CHS_URL, tmpzip)
     with zipfile.ZipFile(tmpzip) as z:
         z.extractall(dest.parent)
     tmpzip.unlink()
@@ -82,7 +79,7 @@ def _bootstrap_bundled_chrome():
 
 
 def find_chrome():
-    """按顺序找可用 Chrome；都没有时自动解压 skill 内置分卷；
+    """按顺序找可用 Chrome；Linux 上都没有时自动从 CDN 下载；
     仍找不到返回 None（渲染类检查自动跳过）。"""
     import shutil
     cands = [
@@ -100,7 +97,7 @@ def find_chrome():
         if p:
             return p
     try:
-        return _bootstrap_bundled_chrome()
+        return _download_chrome()
     except Exception:
         return None
 
