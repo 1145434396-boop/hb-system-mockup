@@ -1,6 +1,6 @@
 ---
 name: huoban-image-design
-description: 生成伙伴云系统界面示意图（1640 宽 HTML 源文件＋2x PNG），画面忠于伙伴云真实产品组件。当用户要画伙伴云界面示意图/mockup（列表页、详情页、表单、工作台、看板、门户、手机端），给报告/方案配系统图，或 huoban-solution-report 给出图需求单时，必须使用本 skill。不用于：海报/朋友圈营销图、流程图（hb-flowchart）、ER 图（hb-er-draw）、网站（hb-website-creator）。
+description: 生成伙伴云系统界面示意图，画面忠于伙伴云真实产品组件。当用户要画伙伴云界面示意图/mockup（列表页、详情页、表单、工作台、看板、门户、手机端），给报告/方案配系统图，或 huoban-solution-report 给出图需求单时，必须使用本 skill。不用于：海报/朋友圈营销图、流程图（hb-flowchart）、ER 图（hb-er-draw）、网站（hb-website-creator）。
 ---
 
 # 伙伴云系统界面示意图
@@ -8,7 +8,7 @@ description: 生成伙伴云系统界面示意图（1640 宽 HTML 源文件＋2x
 - **目标**：产出"长得像伙伴云产品"的界面示意图，拼装真实产品实测组件，不自由发挥。
 - **输入**：出图需求（页面类型、要呈现的字段与数据）；或 huoban-solution-report 递来的图需求单。
 - **输出**：`图名@2x.png`（给人看、嵌报告）＋ `源文件/图名.html`（可再导出的源稿）。
-- **边界**：只画伙伴云产品界面。海报与营销图、流程图（hb-flowchart）、ER 图（hb-er-draw）、网站（hb-website-creator）不在本 skill；伙伴云没有的控件、布局、交互形态一律不画。
+- **边界**：只画伙伴云产品界面。海报与营销图、流程图（hb-flowchart）、ER 图（hb-er-draw）、网站（hb-website-creator）不在本 skill；组件边界见「硬约束·不自造组件」。
 
 ## 依赖关系
 
@@ -16,10 +16,10 @@ description: 生成伙伴云系统界面示意图（1640 宽 HTML 源文件＋2x
 
 | 依赖 | 用途 | 何时加载 |
 | --- | --- | --- |
-| [assets/c1-shell.html](assets/c1-shell.html) | 产品壳、一级顶栏、左侧导航 | 画列表页、工作台、门户，或用户明确要求产品壳；独立自定义详情页不读 |
-| [assets/c2-table-form.html](assets/c2-table-form.html) | 视图页签、工具栏、数据表格、字段、标准表单编辑态、创建表单、卡片视图、业务视图 | 画列表页、创建/编辑态表单、任何带字段的图 |
-| [assets/c3-page-detail.html](assets/c3-page-detail.html) | 独立自定义详情页、记录详情弹窗、工作台/数据分析部件、企业门户、内容组件、原生部件 | 画详情页、详情弹窗、工作台、看板页、门户 |
-| [assets/c4-mobile.html](assets/c4-mobile.html) | 手机端整屏架构与组件目录 | 画任何手机端图；**只读这一份，不套 PC 产品壳** |
+| [assets/c1-shell.html](assets/c1-shell.html) | 产品壳、一级顶栏、左侧导航 | 按下方路由表 |
+| [assets/c2-table-form.html](assets/c2-table-form.html) | 视图页签、工具栏、数据表格、字段、标准表单编辑态、创建表单、卡片视图、业务视图 | 按下方路由表 |
+| [assets/c3-page-detail.html](assets/c3-page-detail.html) | 独立自定义详情页、记录详情弹窗、工作台/数据分析部件、企业门户、内容组件、原生部件 | 按下方路由表 |
+| [assets/c4-mobile.html](assets/c4-mobile.html) | 手机端整屏架构与组件目录 | 按下方路由表 |
 | [assets/base.css](assets/base.css) | 骨架样式，尺寸取自实测 | 每张图必拼 |
 | [assets/skins/](assets/skins/) | 8 套皮肤：6 套报告同名 ＋ 2 套功能皮肤 | 每张图必拼，选法见 skin-guide |
 | [assets/icons.svg](assets/icons.svg) | 63 个图标的 symbol 雪碧图 | 每张图必拼 |
@@ -30,14 +30,16 @@ description: 生成伙伴云系统界面示意图（1640 宽 HTML 源文件＋2x
 | [references/chrome-env.md](references/chrome-env.md) | Chrome 渲染环境探测顺序与手动引导 | 仅在 check.py 报找不到 Chrome 时 |
 | `scripts/check.py` | 静态检查＋渲染探测 | 步骤 6 |
 
-结构文件**按页面类型按需读，禁止全读**。详情形态按下表路由：
+结构文件**按页面类型按需读，禁止全读**，本表是唯一路由真相源：
 
 | 用户说的 | 读哪几份 | 用哪个架构 |
 | --- | --- | --- |
+| 列表页（网格/卡片/看板/甘特/日历/任务/透视） | c1 ＋ c2 | 产品壳 ＋ 对应视图 |
 | 详情页 / 详情界面 | c3（带字段再加 c2 第六区） | 独立自定义详情页。不套产品壳与弹窗遮罩；顶部记录功能区默认包含 |
-| 编辑态 / 标准表单 / 字段录入 | c1 ＋ c2 | 标准表单编辑态 |
-| 弹窗详情 | c1 ＋ c3（widget 卡字段再加 c2 第六区） | 记录详情弹窗 |
-| 工作台 | c1 ＋ c3 | 工作台部件 |
+| 编辑态 / 标准表单 / 字段录入 | c1 ＋ c2 | 标准表单编辑态（仅用户明确要求时） |
+| 弹窗详情 | c1 ＋ c3（widget 卡字段再加 c2 第六区） | 记录详情弹窗（仅用户明确要求时） |
+| 工作台 / 看板页 / 数据分析页 | c1 ＋ c3 | 工作台与数据分析部件 |
+| 企业门户 | c1 ＋ c3 | 企业门户 |
 | 手机端 | 只读 c4（字段更细可再加 c2 第六区） | 手机壳即画布，不要 `.window`／左侧导航／一级顶栏 |
 
 c1～c3 的 `<template>` 是独立架构或组件，**不是整页范例**——按 `data-architecture`、`data-component` 和结构注释识别用途，只取需要的部分，不按文件顺序整段复制。c1 的 `.main` 是页面内容插槽，把 c2/c3 的页面内部结构放进去，不再嵌套第二个 `.main`。
@@ -81,7 +83,7 @@ c1～c3 的 `<template>` 是独立架构或组件，**不是整页范例**——
 
 ### 4. 拼装
 
-1. 按上表读结构文件，取需要的架构与组件。
+1. 按「依赖关系」的路由表读结构文件，取需要的架构与组件。
 2. 用 cat 拼接单文件 HTML，别手抄进上下文：`<style>` ＝ 皮肤 css ＋ base.css ＋ 本图补充样式；`<body>` 开头拼 icons.svg，末尾拼 fit.js。手写的只有本图补充样式和 `.stage` 内容。
 3. 图标一律写成 `<svg class="ico"><use href="#i-名称"/></svg>`，着色用 `ic-*`／`tone-*` 工具类，不写行内色。
 4. 缺的图标先补进 icons.svg 再用，不内联 path。
