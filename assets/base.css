@@ -515,59 +515,18 @@ body.fullbleed .window { border-radius: 0; box-shadow: none; }
 .page { padding: 20px 24px; display: flex; flex-direction: column; gap: 20px; background: var(--page-bg); }
 .page > * { flex: none; } /* 部件按内容高度排布，不被压缩重叠 */
 /* 页面标题区：工作台/看板/数据分析页顶部的「页面名称＋一句话介绍」。
-   一律左对齐；默认无背景，直接坐在页底上。要背景时加一个 bg-* 配方类，配方全部用皮肤 token 取色，不外链图片 */
+   左对齐；默认无背景，标题直接坐在页底上。要背景就加 bg-solid 铺一块干净纯色，
+   几何纹理装饰（网格/环纹/斜纹/点阵/光晕）已废弃，别再加回来 */
 .w-banner { padding: 4px 4px 0; }
 .w-banner h1 { font-size: 30px; font-weight: 600; color: var(--ink-85); }
 .w-banner p { margin-top: 8px; font-size: 16px; color: var(--ink-45); line-height: 1.6; }
-.w-banner[class*="bg-"] {
+.w-banner.bg-solid {
   min-height: 108px; border-radius: 9px; padding: 26px 32px;
   display: flex; flex-direction: column; justify-content: center;
+  background: var(--primary-deep);
 }
-/* 四套背景配方，每套都是「底色＋看得见的几何元素」：分格网格、同心环、斜纹条带、点阵。
-   禁止只铺纯色或只铺一层渐变。装饰全用 CSS 渐变叠出来，不外链图片；重心一律偏右，不压左边的字 */
-/* 深色背景配方：白字 */
-.w-banner.bg-grid, .w-banner.bg-ring, .w-banner.bg-aurora, .w-banner.bg-mesh { color: #fff; }
-.w-banner.bg-grid h1, .w-banner.bg-ring h1, .w-banner.bg-aurora h1, .w-banner.bg-mesh h1 { color: #fff; }
-.w-banner.bg-grid p, .w-banner.bg-ring p, .w-banner.bg-aurora p, .w-banner.bg-mesh p { color: rgba(255, 255, 255, .82); }
-/* 分格网格：整幅细网格＋右侧提亮的大格块 */
-.w-banner.bg-grid {
-  background:
-    linear-gradient(rgba(255, 255, 255, .16) 1px, transparent 1px) 0 0 / 72px 72px,
-    linear-gradient(90deg, rgba(255, 255, 255, .16) 1px, transparent 1px) 0 0 / 72px 72px,
-    linear-gradient(90deg, transparent 62%, rgba(255, 255, 255, .12) 62% 74%, transparent 74% 82%, rgba(255, 255, 255, .08) 82% 100%),
-    var(--banner-bg);
-}
-/* 同心环：皮肤渐变＋右下角一圈圈环纹 */
-.w-banner.bg-ring {
-  background:
-    repeating-radial-gradient(circle at 88% 130%, rgba(255, 255, 255, .16) 0 2px, transparent 2px 26px),
-    radial-gradient(60% 120% at 100% 0%, rgba(255, 255, 255, .18), transparent 70%),
-    var(--banner-bg);
-}
-/* 深色光晕＋细环线：两团彩光打底，右侧压一组同心细环 */
-.w-banner.bg-aurora {
-  background:
-    repeating-radial-gradient(circle at 82% 46%, rgba(255, 255, 255, .14) 0 1px, transparent 1px 30px),
-    radial-gradient(88% 140% at 86% 6%, rgba(255, 255, 255, .26), transparent 60%),
-    radial-gradient(72% 130% at 6% 104%, var(--c-purple), transparent 62%),
-    radial-gradient(40% 90% at 64% 92%, var(--c-teal), transparent 70%),
-    linear-gradient(112deg, var(--primary-deep), var(--primary));
-}
-/* 斜纹＋右侧点阵 */
-.w-banner.bg-mesh {
-  background:
-    radial-gradient(circle at 1px 1px, rgba(255, 255, 255, .30) 1px, transparent 1.5px) 76% 0 / 16px 16px,
-    repeating-linear-gradient(64deg, rgba(255, 255, 255, .12) 0 1px, transparent 1px 20px),
-    linear-gradient(120deg, var(--primary-deep), var(--c-teal));
-}
-/* 浅色背景配方：深字，用于不想让顶部抢戏的看板。淡晕染＋右侧点阵 */
-.w-banner.bg-soft {
-  background:
-    radial-gradient(circle at 1px 1px, var(--primary-soft) 1px, transparent 1.5px) 78% 0 / 14px 14px,
-    radial-gradient(46% 110% at 96% 10%, var(--primary-08), transparent 70%),
-    linear-gradient(100deg, var(--primary-soft), transparent 68%),
-    var(--card-bg);
-}
+.w-banner.bg-solid h1 { color: #fff; }
+.w-banner.bg-solid p { color: rgba(255, 255, 255, .82); }
 /* 横幅与同行部件（如快捷按钮）：按钮不进横幅内部，横幅让宽、右侧部件按内容宽 */
 .w-row:has(> .w-banner) { align-items: center; }
 .w-row > .w-banner { flex: 1 1 auto; min-width: 0; }
