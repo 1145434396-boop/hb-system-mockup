@@ -21,29 +21,28 @@
 给这个方案配一张订单列表页的图，营销版
 ```
 
-产出物落在当前工作目录，`图名.html` 和 `图名@2x.png` 成对。HTML 是源文件，要改图改它再重新导出。
+产出物落在当前工作目录：`图名@2x.png` 在外，源稿进 `源文件/图名.html`。PNG 给人看和嵌报告，HTML 是可再导出的源稿。
 
 ## 架构
 
 三层分离，改一层不影响另两层：
 
 ```
-结构（真实产品 DOM 实测）    assets/c1-shell.html      产品壳、顶栏、导航
-                            assets/c2-table-form.html 表格、字段、表单、业务视图
-                            assets/c3-page-detail.html 详情页、弹窗、工作台部件、门户
+结构（PC 端真实产品 DOM 实测） assets/c1-shell.html       产品壳、顶栏、导航
+                              assets/c2-table-form.html  表格、字段、表单、业务视图
+                              assets/c3-page-detail.html 详情页、弹窗、工作台部件、门户
+结构（手机端，按官方截图仿写） assets/c4-mobile.html      手机壳、卡片视图、表单卡片、企微会话
         ↓
-骨架样式（尺寸布局，无颜色） assets/base.css
+骨架样式（尺寸布局，无颜色）   assets/base.css
         ↓
-皮肤（纯色彩 token）        assets/skins/*.css        10 套
+皮肤（纯色彩 token）          assets/skins/*.css         8 套
 ```
 
-配套：`assets/icons.svg`（63 图标雪碧图）、`assets/fit.js`（画布自适应）、`scripts/check.py`（静态检查）。
+配套：`assets/icons.svg`（64 图标雪碧图）、`assets/fit.js`（画布自适应）、`scripts/check.py`（静态检查）。
 
 ## 皮肤
 
-10 套，按客户行业和气质选：
-
-产品原生蓝、藏蓝金、科技暗黑、温暖人文、高端黑金、活力紫、中式雅韵、安全红、北欧冷灰、柔和粉彩
+8 套，分两组：**报告同名皮肤** 6 套（与 huoban-solution-report 的皮肤同名同气质）＋ **功能皮肤** 2 套（产品原生蓝、科技暗黑）。行业分工表在 `references/skin-guide.md`，清单以 `assets/skins/` 目录为准。
 
 客户有品牌色时可现造一套：复制原生蓝改 6 个主色 token 即可，中性系和状态色语义不动。取色深浅关系按 `references/skin-guide.md` 里的 Radix 12 级尺子。
 
@@ -70,4 +69,4 @@ python3 scripts/check.py 图.html
 - `references/canvas-spec.md` — 画布规范、导出管线
 - `references/skin-guide.md` — 皮肤选型与制作
 - `references/principles/` — 设计判据（视觉四原则、交互三原则、看板数据故事、图表选型、防千篇一律等 8 份）
-- `CHANGELOG.md` — 版本记录
+- `CHANGELOG/` — 版本记录，一个版本一份
