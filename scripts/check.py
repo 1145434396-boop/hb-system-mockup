@@ -8,7 +8,7 @@
 
 检查的是"该由机器判定、肉眼容易漏"的项：色值有没有写死、有没有用不存在的
 组件类、导出前置条件、几条踩过坑的结构禁令，以及渲染后组件有没有留下大片
-空白。剩下的对齐与观感仍然要自己看截图，见 references/canvas-spec.md 的验证清单。
+空白。剩下的对齐与观感仍然要自己看截图，见 references/canvas/verify-export.md 的验证清单。
 
 退出码：有 Blocker 返回 1，其余返回 0。
 """
@@ -289,7 +289,7 @@ def check(path, render=True):
     n_noxmlns = len(re.findall(r"<svg(?![^>]*xmlns)[^>]*>", body))
     if n_noxmlns:
         add("Medium", "svg-no-xmlns",
-            f"{n_noxmlns} 处内嵌 <svg> 缺 xmlns：出 PNG 无影响；走 SVG/foreignObject 嵌报告前须按 canvas-spec 统一补齐")
+            f"{n_noxmlns} 处内嵌 <svg> 缺 xmlns：出 PNG 无影响；走 SVG/foreignObject 嵌报告前须按 canvas/report-embed.md 统一补齐")
     n_br = len(re.findall(r"<br\s*>", body))
     if n_br:
         add("Medium", "br-not-closed",
@@ -353,7 +353,7 @@ def main():
     else:
         if not findings:
             print("✓ 检查通过（颜色 token、组件存在性、导出前置、结构禁令、空隙）")
-            print("  注意：对齐与观感仍需看截图，见 canvas-spec.md 验证清单")
+            print("  注意：对齐与观感仍需看截图，见 canvas/verify-export.md 验证清单")
         else:
             counts = {}
             for f in findings:

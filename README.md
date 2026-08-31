@@ -42,9 +42,9 @@
 
 ## 皮肤
 
-8 套，分两组：**报告同名皮肤** 6 套（与 huoban-solution-report 的皮肤同名同气质）＋ **功能皮肤** 2 套（产品原生蓝、科技暗黑）。行业分工表在 `references/skin-guide.md`，清单以 `assets/skins/` 目录为准。
+8 套，分两组：**报告同名皮肤** 6 套（与 huoban-solution-report 的皮肤同名同气质）＋ **功能皮肤** 2 套（产品原生蓝、科技暗黑）。行业分工表在 `references/skin/routing.md`，清单以 `assets/skins/` 目录为准。
 
-客户有品牌色时可现造一套：复制原生蓝改 6 个主色 token 即可，中性系和状态色语义不动。取色深浅关系按 `references/skin-guide.md` 里的 Radix 12 级尺子。
+客户有品牌色时可现造一套：复制原生蓝改 6 个主色 token 即可，中性系和状态色语义不动。取色深浅关系按 `references/skin/custom-skin.md` 里的 Radix 12 级尺子。
 
 与 huoban-solution-report 的报告皮肤**同名同气质**——报告选定皮肤后，配图用同名皮肤，两者自动同色系。
 
@@ -62,11 +62,11 @@ python3 scripts/check.py 图.html
 
 零依赖静态检查，分级报告：写死色值（Blocker）、用了不存在的组件（High）、本图独有的一次性类（Nit）、SVG 导出前置条件（Medium）。Blocker 清零才能交付。
 
-对齐和观感仍需看渲染截图，检查清单在 `references/canvas-spec.md`。
+对齐和观感仍需看渲染截图，检查清单在 `references/canvas/verify-export.md`。
 
 ## 文档
 
-- `references/canvas-spec.md` — 画布规范、导出管线
-- `references/skin-guide.md` — 皮肤选型与制作
+- `references/canvas/` — 画布规范（按用途分产品设计/营销）、验证与导出、SVG 嵌报告
+- `references/skin/` — 皮肤选型（routing）与制作（custom-skin）
 - `references/principles/` — 设计判据（视觉四原则、交互三原则、看板数据故事、图表选型、防千篇一律等 8 份）
 - `CHANGELOG/` — 版本记录，一个版本一份

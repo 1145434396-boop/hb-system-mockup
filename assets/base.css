@@ -8,7 +8,7 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
 /* 画布透明：营销类界面直接浮在页面/报告纸面上，无衬底色块；
    浏览器预览显示为白底，PNG 导出配 --default-background-color=00000000 得透明底。
-   （SVG 嵌报告管线除外，那条路仍需垫 rect，见 canvas-spec） */
+   （SVG 嵌报告管线除外，那条路仍需垫 rect，见 canvas/report-embed.md） */
 body {
   font-family: var(--font, -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif);
   font-size: 14px; color: var(--ink-85); background: transparent;

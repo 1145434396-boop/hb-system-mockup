@@ -5,119 +5,100 @@ description: 生成伙伴云系统界面示意图，画面忠于伙伴云真实�
 
 # 伙伴云系统界面示意图
 
-- **目标**：产出"长得像伙伴云产品"的界面示意图，拼装真实产品实测组件，不自由发挥。
-- **输入**：出图需求（页面类型、要呈现的字段与数据）；或 huoban-solution-report 递来的图需求单。
-- **输出**：`图名@2x.png`（给人看、嵌报告）＋ `源文件/图名.html`（可再导出的源稿）。
-- **边界**：只画伙伴云产品界面。海报与营销图、流程图（hb-flowchart）、ER 图（hb-er-draw）、网站（hb-website-creator）不在本 skill；组件边界见「硬约束·不自造组件」。
+产出"长得像伙伴云产品"的界面示意图：拼装真实产品实测组件，不自由发挥。输入是出图需求或 huoban-solution-report 的图需求单；输出 `图名@2x.png` ＋ `源文件/图名.html`（可再导出的源稿）。只画伙伴云产品界面，海报/流程图/ER 图/网站不在本 skill。
 
-## 依赖关系
+核心资产三层：**结构**（assets/c1～c4 实测架构，唯一结构真相源）＋**骨架样式**（base.css，尺寸取自实测）＋**皮肤**（assets/skins/ 纯色彩 token，8 套）。
 
-核心资产三层：**结构**（实测架构）＋**骨架样式**（尺寸布局，皮肤无关）＋**皮肤**（纯色彩 token）。
+## 页面类型路由（唯一真相源）
 
-| 依赖 | 用途 | 何时加载 |
+**结构不整读 c 文件**，用脚本按名提取（先 `--list` 看目录，再精确取）：
+
+```bash
+python3 scripts/extract_templates.py assets/c3-page-detail.html \
+  --architecture "独立自定义详情页" --component "记录功能区" --component "标题卡片"
+```
+
+| 用户说的 | 从哪几份提取 | 用哪个架构 |
 | --- | --- | --- |
-| [assets/c1-shell.html](assets/c1-shell.html) | 产品壳、一级顶栏、左侧导航 | 按下方路由表 |
-| [assets/c2-table-form.html](assets/c2-table-form.html) | 视图页签、工具栏、数据表格、字段、标准表单编辑态、创建表单、卡片视图、业务视图 | 按下方路由表 |
-| [assets/c3-page-detail.html](assets/c3-page-detail.html) | 独立自定义详情页、记录详情弹窗、工作台/数据分析部件、企业门户、内容组件、原生部件 | 按下方路由表 |
-| [assets/c4-mobile.html](assets/c4-mobile.html) | 手机端整屏架构与组件目录 | 按下方路由表 |
-| [assets/base.css](assets/base.css) | 骨架样式，尺寸取自实测 | 每张图必拼 |
-| [assets/skins/](assets/skins/) | 8 套皮肤：6 套报告同名 ＋ 2 套功能皮肤 | 每张图必拼，选法见 skin-guide |
-| [assets/icons.svg](assets/icons.svg) | 64 个图标的 symbol 雪碧图 | 每张图必拼 |
-| [assets/fit.js](assets/fit.js) | 画布自适应 | 每张图必拼 |
-| [references/skin-guide.md](references/skin-guide.md) | 输入判定、皮肤选型、从品牌色造皮肤 | 步骤 1 |
-| [references/canvas-spec.md](references/canvas-spec.md) | 画布尺寸、浮层规则、验证与两条导出管线 | 步骤 2 与步骤 6 |
-| [references/principles/](references/principles/README.md) | 8 份判据：视觉四原则、布局、配色、组件规范、交互三原则、看板数据故事、图表选型、防千篇一律 | 步骤 4、5 |
-| [references/chrome-env.md](references/chrome-env.md) | Chrome 渲染环境探测顺序与手动引导 | 仅在 check.py 报找不到 Chrome 时 |
-| `scripts/check.py` | 静态检查＋渲染探测 | 步骤 6 |
-
-结构文件**按页面类型按需读，禁止全读**，本表是唯一路由真相源：
-
-| 用户说的 | 读哪几份 | 用哪个架构 |
-| --- | --- | --- |
-| 列表页（网格/卡片/看板/甘特/日历/任务/透视） | c1 ＋ c2 | 产品壳 ＋ 对应视图 |
-| 详情页 / 详情界面 | c3（带字段再加 c2 第六区） | 独立自定义详情页。不套产品壳与弹窗遮罩；顶部记录功能区默认包含 |
+| 列表页（网格/卡片/看板/甘特/日历/任务/透视） | c1 ＋ c2 | 产品壳层 ＋ 列表页主内容 ＋ 对应视图 |
+| 详情页 / 详情界面 | c3（带字段再加 c2 字段类组件） | 独立自定义详情页。不套产品壳与弹窗遮罩；顶部记录功能区默认包含 |
 | 编辑态 / 标准表单 / 字段录入 | c1 ＋ c2 | 标准表单编辑态（仅用户明确要求时） |
-| 弹窗详情 | c1 ＋ c3（widget 卡字段再加 c2 第六区） | 记录详情弹窗（仅用户明确要求时） |
-| 工作台 / 看板页 / 数据分析页 | c1 ＋ c3 | 工作台与数据分析部件 |
+| 弹窗详情 | c1 ＋ c3（widget 卡字段再加 c2 字段类组件） | 记录详情弹窗（仅用户明确要求时） |
+| 工作台 / 看板页 / 数据分析页 | c1 ＋ c3 | 工作台或数据分析页 |
 | 企业门户 | c1 ＋ c3 | 企业门户 |
-| 手机端 | 只读 c4（字段更细可再加 c2 第六区） | 手机壳即画布，不要 `.window`／左侧导航／一级顶栏 |
+| 手机端 | 只提 c4（字段更细可再加 c2 字段类组件） | 手机单屏/双屏对照。手机壳即画布，不要 `.window`／左侧导航／一级顶栏 |
 
-c1～c4 的 `<template>` 是独立架构或组件，**不是整页范例**——按 `data-architecture`、`data-component` 和结构注释识别用途，只取需要的部分，不按文件顺序整段复制。c1 的 `.main` 是页面内容插槽，把 c2/c3 的页面内部结构放进去，不再嵌套第二个 `.main`。
+提取出的 `<template>` 是独立架构或组件，不是整页范例——按 data-* 属性和结构注释识别用途。c1 的 `.main` 是页面内容插槽，把 c2/c3 的页面内部结构放进去，不再嵌套第二个 `.main`。
 
-## 执行流程
+## 设计原则路由（步骤 4、5 按任务读，不整目录读）
 
-判样式 → 判用途 → 确认图需求单 → 拼装 → 对照判据 → 验证与交付
+| 任务类型 | 必读（references/principles/） | 条件读取 |
+| --- | --- | --- |
+| 所有界面 | visual-four-principles、visual-components | 无 |
+| 多张营销配图 | 同上 | anti-sameness |
+| 工作台 | 同上 | interaction-principles；涉及管理洞察再读 dashboard-data-story |
+| 看板/数据分析页 | 同上＋dashboard-data-story、dashboard-chart-selection | anti-sameness |
+| 表单/编辑态 | 同上＋interaction-principles | visual-layout |
+| 自定义详情页 | 同上＋visual-layout | 有操作设计时读 interaction-principles |
+| 新造或调整皮肤 | visual-color | 页面原则仍按页面类型读 |
 
 ## 执行步骤
 
 ### 1. 判输入，定样式
 
-按 [references/skin-guide.md](references/skin-guide.md) 执行：
-
-- 输入物**带样式**（带样式的 HTML、报告、界面设计需求、系统截图）→ 先问用户是否沿用原样式；沿用则提取色值做皮肤，要求重设计则推荐皮肤库。
-- 输入物**不带样式**（模糊需求、会议逐字稿）→ 直接推荐皮肤，给建议＋理由，不罗列清单，不暴露内部文件名。
-- 报告已选定皮肤时，配图直接用同名皮肤，不再单独推荐。
+按 [references/skin/routing.md](references/skin/routing.md) 判定输入物、选皮肤、定壳层主题；仅在沿用已有样式提色值或新造皮肤时再读 [references/skin/custom-skin.md](references/skin/custom-skin.md)。
 
 ### 2. 判用途，定画布
 
-问一句"这图用来干什么"，两分：
+问一句"这图用来干什么"，两分，读对应一份：
 
-- **营销类**（放进报告／给客户讲解／宣传）→ 底层窗口 ＋ 补充浮层。
-- **产品设计类**（用户照着搭建）→ 仅底层，画面里每个元素都必须能在伙伴云里搭出来。
+- **营销类**（放进报告／给客户讲解／宣传）→ [references/canvas/marketing.md](references/canvas/marketing.md)。
+- **产品设计类**（用户照着搭建）→ [references/canvas/product-design.md](references/canvas/product-design.md)。
 
-画布尺寸、浮层规则、导出细节见 [references/canvas-spec.md](references/canvas-spec.md)。
+画布统一宽 **1640px**（`.stage`），高度按内容实测回填，禁止大片空白也禁止溢出；内容多时窗口高度截到主要内容展示完为止，底部被窗口边缘自然切断是正常的。
 
 ### 3. 确认图需求单
 
 动工前和用户对齐（来自 huoban-solution-report 的调用也是这个格式）：
 
-- **页面类型**：列表页（网格/卡片/看板/甘特/日历/任务/透视）、详情页（默认自定义详情页）、记录详情弹窗、标准表单编辑态、创建表单、工作台、数据分析页、企业门户。
-- **端**：PC（默认）／手机端。
-- **手机端另确认**：屏数（单屏还是双屏对照）、要不要企微会话那一屏。
-- **手机竖图嵌进报告时要限宽居中**（约 360px），否则会被版心拉得巨大。
+- **页面类型**（路由表的"用户说的"一列）与**端**：PC（默认）／手机端。手机端另确认屏数（单屏/双屏对照）、要不要企微会话那一屏；手机竖图嵌进报告时要限宽居中（约 360px），否则会被版心拉得巨大。
 - **要呈现的字段和数据**：用用户业务的真实字段名，数据编得像真的——编号有规则、金额有零头、人名像人名。
-- **自定义页面另加**（工作台/看板/数据分析页）：层次要白底描边还是浅底白卡。
-- **营销类另加**：浮层要突出什么。
+- **自定义页面另加**（工作台/看板/数据分析页）：层次要白底描边还是浅底白卡。营销类另加：浮层要突出什么。
 
 多张图一起做时列个清单让用户确认一次，不逐张打断。
 
 ### 4. 拼装
 
-1. 按「依赖关系」的路由表读结构文件，取需要的架构与组件。
-2. 用 cat 拼接单文件 HTML，别手抄进上下文：`<style>` ＝ 皮肤 css ＋ base.css ＋ 本图补充样式；`<body>` 开头拼 icons.svg，末尾拼 fit.js。手写的只有本图补充样式和 `.stage` 内容。
-3. 图标一律写成 `<svg class="ico"><use href="#i-名称"/></svg>`，着色用 `ic-*`／`tone-*` 工具类，不写行内色。
-4. 缺的图标先补进 icons.svg 再用，不内联 path。
-5. 内容数据按 [anti-sameness.md](references/principles/anti-sameness.md) 编：带零头、有非理想态、行数不取整、同批图版式错开。
-6. 图表绘图区用内联 SVG 手绘，类型按 [dashboard-chart-selection.md](references/principles/dashboard-chart-selection.md) 选。
-7. 图表 SVG 里禁止写死色值：主系列 `var(--primary)`（同系第二层加 `opacity=".45"`）、状态色 `var(--c-green/red/orange/blue/purple)`、轴线 `var(--line)`、轴标字 `var(--ink-45)`。
-8. 图例色块用 `<rect>` 着色，别用 ■ 字符——字符是文字色，着不上。
-9. 工作台/看板/数据分析页第一屏必须放横幅部件：页面名称 ＋ 一句话介绍。排版与背景规则见 c3 横幅部件注释。
-10. 横幅介绍学产品官方口吻，说清这页管什么、给谁用，20 字上下。可带轻量价值词，不堆形容词，不加「阵地/平台/门户」这类帽子（例：实现客户、商机与任务排期的集中管理）。
+1. 按路由表用 extract_templates.py 提取结构模板，参照模板写两个文件：`.stage` 内容（模板去 `<template>` 壳、按业务填数据）和本图补充样式。
+2. 组装交给脚本（固定顺序拼皮肤、base.css、icons.svg、fit.js，改过公共资产后重跑即可重拼）：
 
-**改过 base.css 或皮肤后必须重拼已有图**——图里嵌的是拼装时的快照。
+   ```bash
+   python3 scripts/build.py --skin dawn-blue --content stage片段 --extra-style 补充样式 \
+     --output "源文件/图名.html" [--fullbleed（产品设计类）] --title "图名"
+   ```
+
+3. 图标一律 `<svg class="ico"><use href="#i-名称"/></svg>`，着色用 `ic-*`／`tone-*` 工具类；缺的图标先补进 icons.svg 再用，不内联 path。
+4. 内容数据按 anti-sameness 编：带零头、有非理想态、行数不取整、同批图版式错开。
+5. 图表绘图区用内联 SVG 手绘，类型按 dashboard-chart-selection 选；SVG 里禁止写死色值：主系列 `var(--primary)`（同系第二层加 `opacity=".45"`）、状态色 `var(--c-green/red/orange/blue/purple)`、轴线 `var(--line)`、轴标字 `var(--ink-45)`；图例色块用 `<rect>` 着色，别用 ■ 字符——字符是文字色，着不上。
+6. 工作台/看板/数据分析页第一屏必须放横幅部件：页面名称＋一句话介绍（规则见 c3 横幅部件注释）。介绍学产品官方口吻，说清这页管什么、给谁用，20 字上下，不堆形容词，不加「阵地/平台/门户」帽子（例：实现客户、商机与任务排期的集中管理）。
 
 ### 5. 对照判据
 
-拼完对照 [references/principles/](references/principles/README.md) 过一遍：状态标签用红绿灯语义色、按钮分主/次/警示/置灰、表单列数一致。
+拼完按「设计原则路由」读对应文件过一遍：状态标签用红绿灯语义色、按钮分主/次/警示/置灰、表单列数一致。
 
 ### 6. 验证与交付
 
-1. 跑检查：
+按 [references/canvas/verify-export.md](references/canvas/verify-export.md) 执行：
 
-   ```
-   python3 scripts/check.py 图.html
-   ```
+1. `python3 scripts/check.py 图.html`——检查写死色值、自造组件、缺失图标、导出前置，并渲染量空隙。**Blocker 必须清零**；empty-gap 逐条处理。
+2. 浏览器渲染核对：高度贴合、无溢出、组件不走样，回填 `.stage` 高度（改补充样式后重跑 build.py）。
+3. 出 2x PNG；嵌报告场景另读 [references/canvas/report-embed.md](references/canvas/report-embed.md) 走 SVG 管线。
 
-   检查写死色值、自造组件、缺失图标、导出前置，并渲染一遍量空隙。**Blocker 必须清零**才能继续；empty-gap 逐条处理，补内容或收紧布局。
-
-2. 浏览器渲染核对：高度贴合、无溢出、组件不走样，然后回填 `.stage` 高度。
-3. 出 2x PNG。嵌报告场景另按 canvas-spec 的 SVG 管线导出。
-
-Chrome 渲染环境按需获取：脚本自动探测本机 Chrome，Linux 沙箱没有时才下载一次并缓存复用，细节见 [references/chrome-env.md](references/chrome-env.md)。
+Chrome 渲染环境按需获取：脚本自动探测本机 Chrome，Linux 沙箱没有时才下载一次并缓存复用，报找不到时读 [references/chrome-env.md](references/chrome-env.md)。
 
 ## 输出物落点
 
-**PNG 在外、HTML 进 `源文件/` 子文件夹**——PNG 给人看和嵌报告，HTML 是可再导出的源稿，分开放免得交付目录混杂。
+**PNG 在外、HTML 进 `源文件/` 子文件夹**——PNG 给人看和嵌报告，HTML 是可再导出的源稿。
 
 | 场景 | PNG | HTML |
 | --- | --- | --- |
