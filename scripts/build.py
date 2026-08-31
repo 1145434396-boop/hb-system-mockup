@@ -68,8 +68,8 @@ def main():
     if '<template' in content:
         sys.stderr.write("内容里还有 <template> 标签：模板要去壳后放进 .stage，template 元素浏览器不渲染\n")
         return 1
-    if 'class="stage"' not in content and "class='stage'" not in content and "stage" not in content:
-        sys.stderr.write('内容里没有 .stage：<body> 内容必须包在 <div class="stage"> 里\n')
+    if 'class="stage"' not in content:
+        sys.stderr.write('内容里没有 class="stage"：<body> 内容必须包在 <div class="stage"> 里\n')
         return 1
 
     extra = ""

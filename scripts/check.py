@@ -298,7 +298,7 @@ def check(path, render=True):
     # ── Medium：结构禁令（踩过的坑） ───────────────────────────────
     if re.search(r'class="[^"]*\bico\b[^"]*"[^>]*>\s*<path', body):
         add("Medium", "inline-icon-path",
-            "图标仍在内联 path，应改 <use href=\"#i-...\"/>（icons.svg 已收 63 个）")
+            "图标仍在内联 path，应改 <use href=\"#i-...\"/>（图标清单以 assets/icons.svg 为准）")
     if "■" in body or "●" in body:
         add("Medium", "legend-char",
             "图例用了 ■/● 字符：字符只能着文字色，无法与系列色一致，应改 <rect>/<circle>")

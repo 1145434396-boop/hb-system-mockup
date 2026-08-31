@@ -50,7 +50,7 @@ python3 scripts/extract_templates.py assets/c3-page-detail.html \
 
 ### 2. 判用途，定画布
 
-问一句"这图用来干什么"，两分，读对应一份：
+问一句"这图用来干什么"，分两类，读对应那一份：
 
 - **营销类**（放进报告／给客户讲解／宣传）→ [references/canvas/marketing.md](references/canvas/marketing.md)。
 - **产品设计类**（用户照着搭建）→ [references/canvas/product-design.md](references/canvas/product-design.md)。
@@ -69,12 +69,12 @@ python3 scripts/extract_templates.py assets/c3-page-detail.html \
 
 ### 4. 拼装
 
-1. 按路由表用 extract_templates.py 提取结构模板，参照模板写两个文件：`.stage` 内容（模板去 `<template>` 壳、按业务填数据）和本图补充样式。
+1. 按路由表用 extract_templates.py 提取结构模板，参照模板写两个中间文件到 scratchpad：`.stage` 内容（模板去 `<template>` 壳、按业务填数据）和本图补充样式。
 2. 组装交给脚本（固定顺序拼皮肤、base.css、icons.svg、fit.js，改过公共资产后重跑即可重拼）：
 
    ```bash
-   python3 scripts/build.py --skin dawn-blue --content stage片段 --extra-style 补充样式 \
-     --output "源文件/图名.html" [--fullbleed（产品设计类）] --title "图名"
+   python3 scripts/build.py --skin dawn-blue --content stage.html --extra-style page.css \
+     --output "源文件/图名.html" --title "图名"    # 产品设计类加 --fullbleed
    ```
 
 3. 图标一律 `<svg class="ico"><use href="#i-名称"/></svg>`，着色用 `ic-*`／`tone-*` 工具类；缺的图标先补进 icons.svg 再用，不内联 path。

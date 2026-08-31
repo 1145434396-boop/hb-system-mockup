@@ -38,7 +38,7 @@
 皮肤（纯色彩 token）          assets/skins/*.css         8 套
 ```
 
-配套：`assets/icons.svg`（64 图标雪碧图）、`assets/fit.js`（画布自适应）、`scripts/check.py`（静态检查）。
+配套：`assets/icons.svg`（图标雪碧图）、`assets/fit.js`（画布自适应）、`scripts/extract_templates.py`（按需提取结构模板）、`scripts/build.py`（确定性组装单文件 HTML）、`scripts/check.py`（静态检查）。
 
 ## 皮肤
 
